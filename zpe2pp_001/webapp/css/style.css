@@ -1,0 +1,13 @@
+.prodInstructionButton .sapMBtnInner {
+    background: #ffffff;
+    border-color: #0a6ed1;
+    color: #0a6ed1;
+}
+
+.prodInstructionButton .sapMBtnIcon {
+    color: #0a6ed1;
+}
+
+.prodInstructionButton:hover .sapMBtnInner {
+    background: #ebf5ff;
+}

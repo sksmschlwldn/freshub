@@ -1,0 +1,62 @@
+<mvc:View controllerName="zpe2.pp001.zpe2pp001.controller.ProdDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="prodDetailPage" title="생산 상세" showNavButton="true" navButtonPress=".onNavBack">
+        <VBox class="sapUiSmallMargin">
+            <Panel headerText="생산오더 정보" expandable="false">
+                <VBox class="sapUiSmallMargin">
+                    <HBox alignItems="End" wrap="Wrap">
+                        <VBox width="14rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="생산오더번호" />
+                            <Input value="{Aufnr}" editable="false" />
+                        </VBox>
+                        <VBox width="14rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="자재번호" />
+                            <Input value="{Plnbez}" editable="false" />
+                        </VBox>
+                        <VBox width="18rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="자재명" />
+                            <Input value="{Maktx}" editable="false" />
+                        </VBox>
+                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="생산수량" />
+                            <Input
+                                editable="false"
+                                value="{
+                                    parts:[{path:'Gamng'},{path:'Meins'}],
+                                    type: 'sap.ui.model.type.Unit',
+                                    formatOptions: {showMeasure: true}
+                                }" />
+                        </VBox>
+                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="생산상태" />
+                            <Input value="{path: 'Stat', formatter: '.formatProdStatusText'}" editable="false" />
+                        </VBox>
+                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="계획시작일" />
+                            <Input value="{Gstrp}" editable="false" />
+                        </VBox>
+                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="계획완료일" />
+                            <Input value="{Gltrp}" editable="false" />
+                        </VBox>
+                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="BOM ID" />
+                            <Input value="{Stlnr}" editable="false" />
+                        </VBox>
+                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+                            <Label text="라우팅 ID" />
+                            <Input value="{Plnnr}" editable="false" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </Panel>
+
+            <Panel headerText="공정 실적" expandable="false" class="sapUiSmallMarginTop">
+                <VBox class="sapUiSmallMargin">
+                    <Text text="공정 조회 및 실적 입력 영역" />
+                </VBox>
+            </Panel>
+        </VBox>
+    </Page>
+</mvc:View>
