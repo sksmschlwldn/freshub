@@ -35,6 +35,22 @@ sap.ui.define([
             }
         },
 
+        formatProdQuantity(vGamng, sMeins) {
+            if (!vGamng && !sMeins) {
+                return "";
+            }
+
+            return `${vGamng || ""} ${sMeins || ""}`.trim();
+        },
+
+        formatPlanDateRange(sGstrp, sGltrp) {
+            if (sGstrp && sGltrp) {
+                return `${sGstrp} ~ ${sGltrp}`;
+            }
+
+            return sGstrp || sGltrp || "";
+        },
+
         _onRouteMatched(oEvent) {
             const sAufnr = decodeURIComponent(oEvent.getParameter("arguments").aufnr);
             const oModel = this.getOwnerComponent().getModel();

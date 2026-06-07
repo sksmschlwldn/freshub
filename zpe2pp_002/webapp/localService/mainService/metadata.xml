@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGWE2PP0001_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ProdOrder" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Aufnr"/>
+                </Key>
+                <Property Name="Aufnr" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="생산 오더 번호" sap:updatable="false"/>
+                <Property Name="Plnbez" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="자재 번호"/>
+                <Property Name="Charg" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="배치번호"/>
+                <Property Name="Stlnr" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="BOM ID"/>
+                <Property Name="Plnnr" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="공정 ID"/>
+                <Property Name="Stat" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="생산 상태"/>
+                <Property Name="Gamng" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="생산 지시 수량"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Apstat" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="승인 상태"/>
+                <Property Name="Gstrp" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="계획 시작일"/>
+                <Property Name="Gltrp" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="계획 완료일"/>
+                <Property Name="Ordat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="오더 생성일"/>
+                <Property Name="Aenam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Changed By"/>
+                <Property Name="Aedat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Changed On"/>
+                <Property Name="Aezet" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Time of change"/>
+                <Property Name="Maktx" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="자재명"/>
+            </EntityType>
+            <EntityType Name="ProdItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Aufnr"/>
+                    <PropertyRef Name="Posnr"/>
+                </Key>
+                <Property Name="Aufnr" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="생산 오더 번호" sap:updatable="false"/>
+                <Property Name="Posnr" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="항목 번호" sap:updatable="false"/>
+                <Property Name="Matnr" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="자재 번호"/>
+                <Property Name="Charg" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="배치번호"/>
+                <Property Name="Bdmng" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="생산 필요 수량"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Maktx" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="자재명"/>
+            </EntityType>
+            <EntityType Name="ProdRout" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Aufnr"/>
+                    <PropertyRef Name="Vornr"/>
+                </Key>
+                <Property Name="Lgort" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="저장 위치"/>
+                <Property Name="Aufnr" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="생산 오더 번호" sap:updatable="false"/>
+                <Property Name="Vornr" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="작업 번호" sap:updatable="false"/>
+                <Property Name="Werks" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="플랜트"/>
+                <Property Name="Plnnr" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="공정 ID"/>
+                <Property Name="KtextR" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="작업장"/>
+                <Property Name="Arbpl" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="작업장 ID"/>
+                <Property Name="KtextW" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="작업장"/>
+                <Property Name="Ltxa1" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="작업 명칭"/>
+                <Property Name="Vgw02" Type="Edm.Decimal" Precision="9" Scale="3" sap:unicode="false" sap:unit="Vge02" sap:label="작업시간"/>
+                <Property Name="Vge02" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="작업시간 단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Bmsch" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="수량"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Isdd" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="작업 시작일"/>
+                <Property Name="Isdz" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="작업 시작 시간"/>
+                <Property Name="Iedd" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="작업 종료일"/>
+                <Property Name="Iedz" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="작업 종료 시간"/>
+                <Property Name="Ismnw" Type="Edm.Decimal" Precision="7" Scale="1" sap:unicode="false" sap:unit="Vge02" sap:label="소요 시간"/>
+                <Property Name="Ernam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Created By"/>
+                <Property Name="Erdat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Created On"/>
+                <Property Name="Erzet" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Time"/>
+                <Property Name="Aenam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Changed By"/>
+                <Property Name="Aedat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Changed On"/>
+                <Property Name="Aezet" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Time of change"/>
+            </EntityType>
+            <EntityType Name="ProdComplete" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Aufnr"/>
+                </Key>
+                <Property Name="Aufnr" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="생산 오더 번호" sap:updatable="false"/>
+                <Property Name="Auart" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="생산 오더 유형"/>
+                <Property Name="Plnum" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="생산 계획 번호"/>
+                <Property Name="Plpos" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="항목 번호"/>
+                <Property Name="Vbeln" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="판매 오더 번호"/>
+                <Property Name="Posnr" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="항목번호"/>
+                <Property Name="Plnbez" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="자재 번호"/>
+                <Property Name="Charg" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="배치번호"/>
+                <Property Name="Stlnr" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="BOM ID"/>
+                <Property Name="Plnnr" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="공정 ID"/>
+                <Property Name="Stat" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="생산 상태"/>
+                <Property Name="Gamng" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="생산 지시 수량"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Apstat" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="승인 상태"/>
+                <Property Name="Gstrp" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="계획 시작일"/>
+                <Property Name="Gltrp" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="계획 완료일"/>
+                <Property Name="Ordat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="오더 생성일"/>
+                <Property Name="Pernr" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="사원 번호"/>
+                <Property Name="Ernam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Created By"/>
+                <Property Name="Erdat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Created On"/>
+                <Property Name="Erzet" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Time"/>
+                <Property Name="Aenam" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Changed By"/>
+                <Property Name="Aedat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Changed On"/>
+                <Property Name="Aezet" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Time of change"/>
+            </EntityType>
+            <EntityContainer Name="ZGWE2PP0001_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ProdOrderSet" EntityType="ZGWE2PP0001_SRV.ProdOrder" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ProdItemSet" EntityType="ZGWE2PP0001_SRV.ProdItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ProdRoutSet" EntityType="ZGWE2PP0001_SRV.ProdRout" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ProdCompleteSet" EntityType="ZGWE2PP0001_SRV.ProdComplete" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="http://bgissap3.bgissap.co.kr:8000/sap/opu/odata/sap/ZGWE2PP0001_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://bgissap3.bgissap.co.kr:8000/sap/opu/odata/sap/ZGWE2PP0001_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

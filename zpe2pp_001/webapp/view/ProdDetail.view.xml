@@ -4,50 +4,66 @@
     <Page id="prodDetailPage" title="생산 상세" showNavButton="true" navButtonPress=".onNavBack">
         <VBox class="sapUiSmallMargin">
             <Panel headerText="생산오더 정보" expandable="false">
-                <VBox class="sapUiSmallMargin">
-                    <HBox alignItems="End" wrap="Wrap">
-                        <VBox width="14rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="생산오더번호" />
-                            <Input value="{Aufnr}" editable="false" />
-                        </VBox>
-                        <VBox width="14rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="자재번호" />
-                            <Input value="{Plnbez}" editable="false" />
-                        </VBox>
-                        <VBox width="18rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="자재명" />
-                            <Input value="{Maktx}" editable="false" />
-                        </VBox>
-                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="생산수량" />
+                <VBox class="sapUiSmallMargin prodDetailInfo">
+                    <HBox wrap="Wrap" class="prodDetailInfoLine" alignItems="Center">
+                        <HBox class="prodDetailField" alignItems="Center">
+                            <Label text="생산오더번호" class="prodDetailLabel" />
+                            <Text text=":" class="prodDetailColon" />
+                            <Input value="{Aufnr}" editable="false" width="10rem" />
+                        </HBox>
+                        <HBox class="prodDetailField" alignItems="Center">
+                            <Label text="생산상태" class="prodDetailLabel" />
+                            <Text text=":" class="prodDetailColon" />
+                            <Input value="{path: 'Stat', formatter: '.formatProdStatusText'}" editable="false" width="10rem" />
+                        </HBox>
+                    </HBox>
+                    <HBox wrap="Wrap" class="prodDetailInfoLine" alignItems="Center">
+                        <HBox class="prodDetailField" alignItems="Center">
+                            <Label text="자재번호" class="prodDetailLabel" />
+                            <Text text=":" class="prodDetailColon" />
+                            <Input value="{Plnbez}" editable="false" width="10rem" />
+                        </HBox>
+                        <HBox class="prodDetailField" alignItems="Center">
+                            <Label text="자재명" class="prodDetailLabel" />
+                            <Text text=":" class="prodDetailColon" />
+                            <Input value="{Maktx}" editable="false" width="14rem" />
+                        </HBox>
+                        <HBox class="prodDetailField" alignItems="Center">
+                            <Label text="생산수량" class="prodDetailLabel" />
+                            <Text text=":" class="prodDetailColon" />
                             <Input
-                                editable="false"
                                 value="{
                                     parts:[{path:'Gamng'},{path:'Meins'}],
-                                    type: 'sap.ui.model.type.Unit',
-                                    formatOptions: {showMeasure: true}
-                                }" />
-                        </VBox>
-                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="생산상태" />
-                            <Input value="{path: 'Stat', formatter: '.formatProdStatusText'}" editable="false" />
-                        </VBox>
-                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="계획시작일" />
-                            <Input value="{Gstrp}" editable="false" />
-                        </VBox>
-                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="계획완료일" />
-                            <Input value="{Gltrp}" editable="false" />
-                        </VBox>
-                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="BOM ID" />
-                            <Input value="{Stlnr}" editable="false" />
-                        </VBox>
-                        <VBox width="12rem" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-                            <Label text="라우팅 ID" />
-                            <Input value="{Plnnr}" editable="false" />
-                        </VBox>
+                                    formatter: '.formatProdQuantity'
+                                }"
+                                editable="false"
+                                width="10rem" />
+                        </HBox>
+                    </HBox>
+                    <HBox wrap="Wrap" class="prodDetailInfoLine" alignItems="Center">
+                        <HBox class="prodDetailField prodDetailWideField" alignItems="Center">
+                            <Label text="계획일" class="prodDetailLabel" />
+                            <Text text=":" class="prodDetailColon" />
+                            <Input
+                                value="{
+                                    parts:[{path:'Gstrp'},{path:'Gltrp'}],
+                                    formatter: '.formatPlanDateRange'
+                                }"
+                                editable="false"
+                                width="18rem" />
+                        </HBox>
+                    </HBox>
+                    <HBox wrap="Wrap" class="prodDetailInfoLine" alignItems="Center">
+                        <HBox class="prodDetailField" alignItems="Center">
+                            <Label text="BOM ID" class="prodDetailLabel" />
+                            <Text text=":" class="prodDetailColon" />
+                            <Input value="{Stlnr}" editable="false" width="10rem" />
+                        </HBox>
+                        <HBox class="prodDetailField" alignItems="Center">
+                            <Label text="공정 ID" class="prodDetailLabel" />
+                            <Text text=":" class="prodDetailColon" />
+                            <Input value="{Plnnr}" editable="false" width="10rem" />
+                        </HBox>
                     </HBox>
                 </VBox>
             </Panel>

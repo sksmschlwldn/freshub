@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "4.0"
+metadata:
+  name: zpe2.pp002.zpe2pp002
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: http://bgissap3.bgissap.co.kr:8000
+          client: '100'
+        app:
+          name: ZGWE2PP0001
+          description: Production Order
+          package: ZPE2PP
+          transport: EFXK901741
+        exclude:
+          - /test/

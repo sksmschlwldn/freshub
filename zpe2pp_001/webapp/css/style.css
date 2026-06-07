@@ -11,3 +11,28 @@
 .prodInstructionButton:hover .sapMBtnInner {
     background: #ebf5ff;
 }
+
+.prodDetailInfo {
+    gap: 0.75rem;
+}
+
+.prodDetailInfoLine {
+    gap: 1.5rem;
+}
+
+.prodDetailField {
+    min-width: 22rem;
+}
+
+.prodDetailLabel {
+    width: 6rem;
+}
+
+.prodDetailColon {
+    width: 1rem;
+    text-align: center;
+}
+
+.prodDetailWideField {
+    min-width: 30rem;
+}

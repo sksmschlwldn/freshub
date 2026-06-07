@@ -1,7 +1,7 @@
 {
   "_version": "1.60.0",
   "sap.app": {
-    "id": "zpe2.pp001.zpe2pp001",
+    "id": "zpe2.pp002.zpe2pp002",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.25.0",
-      "toolsId": "55a36f6f-00f9-4256-9598-55d2ed86b5dc"
+      "toolsId": "3353eff6-996d-4c19-be4a-672c9b22f5b5"
     },
     "dataSources": {
       "mainService": {
@@ -64,16 +64,13 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "zpe2.pp001.zpe2pp001.i18n.i18n"
+          "bundleName": "zpe2.pp002.zpe2pp002.i18n.i18n"
         }
       },
       "": {
         "dataSource": "mainService",
         "preload": true,
-        "settings": {
-          "useBatch": false,
-          "defaultCountMode": "None"
-        }
+        "settings": {}
       }
     },
     "resources": {
@@ -91,39 +88,35 @@
         "transition": "slide",
         "type": "View",
         "viewType": "XML",
-        "path": "zpe2.pp001.zpe2pp001.view",
+        "path": "zpe2.pp002.zpe2pp002.view",
         "async": true,
-        "viewPath": "zpe2.pp001.zpe2pp001.view"
+        "viewPath": "zpe2.pp002.zpe2pp002.view"
       },
       "routes": [
         {
-          "name": "RouteProdDetail",
-          "pattern": "ProdDetail/{aufnr}",
-          "target": [
-            "TargetProdDetail"
-          ]
+          "name": "RouteProdOrderView",
+          "pattern": ":?query:",
+          "target": ["TargetProdOrderView"]
         },
         {
-          "name": "RouteProdView",
-          "pattern": ":?query:",
-          "target": [
-            "TargetProdView"
-          ]
+          "name": "RouteProdOrderDetail",
+          "pattern": "ProdOrder/{aufnr}",
+          "target": ["TargetProdOrderDetail"]
         }
       ],
       "targets": {
-        "TargetProdView": {
-          "id": "ProdView",
-          "name": "ProdView"
+        "TargetProdOrderView": {
+          "id": "ProdOrderView",
+          "name": "ProdOrderView"
         },
-        "TargetProdDetail": {
-          "id": "ProdDetail",
-          "name": "ProdDetail"
+        "TargetProdOrderDetail": {
+          "id": "ProdOrderDetail",
+          "name": "ProdOrderDetail"
         }
       }
     },
     "rootView": {
-      "viewName": "zpe2.pp001.zpe2pp001.view.App",
+      "viewName": "zpe2.pp002.zpe2pp002.view.App",
       "type": "XML",
       "id": "App",
       "async": true
