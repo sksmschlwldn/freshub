@@ -4,66 +4,71 @@
     xmlns="sap.m">
     <Page id="prodOrderDetailPage" title="생산오더 상세" showNavButton="true" navButtonPress=".onNavBack">
         <VBox class="sapUiSmallMargin">
-            <Panel headerText="생산오더 정보" expandable="false" class="sapUiNoContentPadding">
-                <VBox>
-                    <ObjectHeader
-                        title="{Aufnr}"
-                        number="{
-                            parts:[{path:'Gamng'},{path:'Meins'}],
-                            formatter: '.formatQuantity'
-                        }"
-                        numberUnit="지시수량"
-                        responsive="true">
-                        <attributes>
-                            <ObjectAttribute title="자재번호" text="{Plnbez}" />
-                            <ObjectAttribute title="자재명" text="{Maktx}" />
-                            <ObjectAttribute
-                                title="계획일"
+            <Panel expandable="false" class="sapUiNoContentPadding prodDetailSummaryPanel">
+                <VBox class="prodDetailSummary">
+                    <HBox alignItems="Center" wrap="Wrap" class="prodDetailSummaryTop">
+                        <VBox width="20rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <HBox alignItems="Center">
+                                <Title text="{Aufnr}" level="H1" titleStyle="H3" class="sapUiTinyMarginEnd" />
+                                <ObjectStatus
+                                    text="{path: 'Stat', formatter: '.formatProdStatusText'}"
+                                    state="{path: 'Stat', formatter: '.formatProdStatusState'}"
+                                    class="prodDetailStatusPill" />
+                            </HBox>
+                            <HBox alignItems="Center" wrap="Wrap" class="prodDetailMaterialText">
+                                <Text text="자재번호 {Plnbez}" wrapping="false" class="sapUiTinyMarginEnd" />
+                                <Text text="|" class="sapUiTinyMarginEnd" />
+                                <Text text="자재명 {Maktx}" wrapping="false" />
+                            </HBox>
+                        </VBox>
+
+                        <VBox width="8rem" class="prodDetailSummaryItem">
+                            <Label text="지시 수량" />
+                            <Text
+                                text="{
+                                    parts:[{path:'Gamng'},{path:'Meins'}],
+                                    formatter: '.formatQuantity'
+                                }"
+                                wrapping="false" />
+                        </VBox>
+                        <VBox width="16rem" class="prodDetailSummaryItem">
+                            <Label text="계획 기간" />
+                            <Text
                                 text="{
                                     parts:[{path:'Gstrp'},{path:'Gltrp'}],
                                     formatter: '.formatDateRange'
-                                }" />
-                        </attributes>
-                        <statuses>
-                            <ObjectStatus
-                                title="생산 상태"
-                                text="{path: 'Stat', formatter: '.formatProdStatusText'}"
-                                state="{path: 'Stat', formatter: '.formatProdStatusState'}" />
-                        </statuses>
-                    </ObjectHeader>
-
-                    <VBox class="sapUiSmallMargin prodDetailInfo">
-                        <Title text="공정 정보" level="H3" titleStyle="H5" />
-                        <HBox wrap="Wrap" class="prodDetailInfoLine" alignItems="Start">
-                            <VBox class="prodDetailTextField">
-                                <Label text="플랜트" />
-                                <Text text="{detail>/routeHeader/Werks}" />
-                            </VBox>
-                            <VBox class="prodDetailTextField">
-                                <Label text="생산공정ID" />
-                                <Text text="{detail>/routeHeader/Plnnr}" />
-                            </VBox>
-                            <VBox class="prodDetailTextField prodDetailTextWideField">
-                                <Label text="생산공정명" />
-                                <Text text="{detail>/routeHeader/KtextR}" />
-                            </VBox>
-                        </HBox>
-                    </VBox>
+                                }"
+                                wrapping="false" />
+                        </VBox>
+                        <VBox width="12rem" class="prodDetailSummaryItem">
+                            <Label text="생산공정" />
+                            <Text text="{detail>/routeHeader/KtextR}" wrapping="false" />
+                        </VBox>
+                        <VBox width="6rem" class="prodDetailSummaryItem">
+                            <Label text="플랜트" />
+                            <Text text="{detail>/routeHeader/Werks}" wrapping="false" />
+                        </VBox>
+                        <VBox width="12rem" class="prodDetailSummaryItem">
+                            <Label text="생산공정ID" />
+                            <Text text="{detail>/routeHeader/Plnnr}" wrapping="false" />
+                        </VBox>
+                    </HBox>
                 </VBox>
             </Panel>
 
-            <Panel headerText="공정 실적" expandable="false" class="sapUiSmallMarginTop">
+            <IconTabBar
+                class="sapUiSmallMarginTop"
+                expandable="false"
+                upperCase="false"
+                selectedKey="performance">
+                <items>
+                    <IconTabFilter key="performance" text="생산실적">
+                        <Panel headerText="생산실적" expandable="false" class="sapUiNoContentPadding prodDetailTabPanel">
                 <t:Table
                     id="prodRoutTable"
                     visibleRowCount="6"
                     rows="{detail>/routs}"
-                    selectionMode="None"
-                    ariaLabelledBy="prodRoutTitle">
-                    <t:extension>
-                        <OverflowToolbar style="Clear">
-                            <Title id="prodRoutTitle" text="공정 실적 입력" />
-                        </OverflowToolbar>
-                    </t:extension>
+                    selectionMode="None">
                     <t:columns>
                         <t:Column width="7rem" hAlign="Center">
                             <Label text="공정 순서" />
@@ -193,7 +198,7 @@
                         </t:Column>
                     </t:columns>
                 </t:Table>
-                <HBox justifyContent="End" class="sapUiSmallMarginTop">
+                <HBox justifyContent="End" class="prodDetailCompleteBar">
                     <Button
                         text="생산완료"
                         icon="sap-icon://complete"
@@ -207,56 +212,55 @@
                         }"
                         press=".onPressCompleteProduction" />
                 </HBox>
-            </Panel>
+                        </Panel>
+                    </IconTabFilter>
 
-            <Panel headerText="배치별 투입 재고" expandable="false" class="sapUiSmallMarginTop">
-                <t:Table
-                    id="prodItemTable"
-                    visibleRowCount="5"
-                    rows="{detail>/items}"
-                    selectionMode="None"
-                    ariaLabelledBy="prodItemTitle">
-                    <t:extension>
-                        <OverflowToolbar style="Clear">
-                            <Title id="prodItemTitle" text="생산 투입 자재" />
-                        </OverflowToolbar>
-                    </t:extension>
-                    <t:columns>
-                        <t:Column width="8rem">
-                            <Label text="배치번호" />
-                            <t:template>
-                                <Text text="{detail>Charg}" wrapping="false" />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="10rem">
-                            <Label text="자재번호" />
-                            <t:template>
-                                <Text text="{detail>Matnr}" wrapping="false" />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="16rem">
-                            <Label text="자재명" />
-                            <t:template>
-                                <Text text="{detail>Maktx}" wrapping="false" />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label text="투입 수량" />
-                            <t:template>
-                                <ObjectNumber
-                                    number="{detail>Bdmng}"
-                                    unit="{detail>Meins}" />
-                            </t:template>
-                        </t:Column>
-                     <!--<t:Column width="6rem">
-                            <Label text="단위" />
-                            <t:template>
-                                <Text text="{detail>Meins}" wrapping="false" />
-                            </t:template>
-                        </t:Column>-->   
-                    </t:columns>
-                </t:Table>
-            </Panel>
+                    <IconTabFilter key="materials" text="자재사용">
+                        <Panel headerText="자재사용" expandable="false" class="sapUiNoContentPadding prodDetailTabPanel">
+                            <t:Table
+                                id="prodItemTable"
+                                visibleRowCount="5"
+                                rows="{detail>/items}"
+                                selectionMode="None">
+                                <t:columns>
+                                    <t:Column width="8rem">
+                                        <Label text="배치번호" />
+                                        <t:template>
+                                            <Text text="{detail>Charg}" wrapping="false" />
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="10rem">
+                                        <Label text="자재번호" />
+                                        <t:template>
+                                            <Text text="{detail>Matnr}" wrapping="false" />
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="16rem">
+                                        <Label text="자재명" />
+                                        <t:template>
+                                            <Text text="{detail>Maktx}" wrapping="false" />
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="9rem">
+                                        <Label text="투입 수량" />
+                                        <t:template>
+                                            <ObjectNumber
+                                                number="{detail>Bdmng}"
+                                                unit="{detail>Meins}" />
+                                        </t:template>
+                                    </t:Column>
+                                 <!--<t:Column width="6rem">
+                                        <Label text="단위" />
+                                        <t:template>
+                                            <Text text="{detail>Meins}" wrapping="false" />
+                                        </t:template>
+                                    </t:Column>-->   
+                                </t:columns>
+                            </t:Table>
+                        </Panel>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
         </VBox>
     </Page>
 </mvc:View>

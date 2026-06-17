@@ -29,6 +29,65 @@
     gap: 0.75rem;
 }
 
+.prodDetailSummaryPanel .sapMPanelContent {
+    background: #ffffff;
+    border-radius: 0.5rem;
+}
+
+.prodDetailSummary {
+    padding: 1rem 1.25rem;
+}
+
+.prodDetailSummaryTop {
+    gap: 0;
+}
+
+.prodDetailSummaryTop .sapMTitle {
+    color: #14233b;
+    font-weight: 700;
+}
+
+.prodDetailMaterialText .sapMText {
+    color: #4a5f76;
+}
+
+.prodDetailSummaryItem {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-left: 1px solid #e1e7ef;
+    margin-bottom: 0.5rem;
+}
+
+.prodDetailSummaryItem .sapMLabel {
+    color: #53687f;
+    font-weight: 700;
+}
+
+.prodDetailSummaryItem .sapMText {
+    color: #213047;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.prodDetailStatusPill {
+    padding: 0.125rem 0.625rem;
+    border: 1px solid #b8d7ff;
+    border-radius: 0.375rem;
+    background: #edf5ff;
+}
+
+.prodDetailStatusPill .sapMObjStatusText {
+    font-weight: 700;
+}
+
+.prodDetailTabPanel .sapMPanelContent {
+    padding-top: 0.75rem;
+}
+
+.prodDetailCompleteBar {
+    padding: 0.75rem 1rem 1rem;
+}
+
 .prodDetailInfoLine {
     gap: 1.5rem;
 }
