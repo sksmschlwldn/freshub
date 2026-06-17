@@ -1,0 +1,193 @@
+<mvc:View controllerName="zpe2.co001.zpe2co001.controller.ActualCostView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:t="sap.ui.table"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page id="page" title="실제원가 산정">
+        <VBox class="sapUiSmallMargin">
+            <Panel expandable="false" class="actualCostFilterBar sapUiNoContentPadding sapUiSmallMarginBottom">
+                <VBox class="sapUiSmallMargin">
+                    <HBox alignItems="End" wrap="Wrap">
+                        <VBox width="12rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <Label text="연도" required="true" />
+                            <ComboBox
+                                id="yearComboBox"
+                                width="100%"
+                                selectedKey="{view>/year}">
+                                <core:Item key="2024" text="2024" />
+                                <core:Item key="2025" text="2025" />
+                                <core:Item key="2026" text="2026" />
+                                <core:Item key="2027" text="2027" />
+                                <core:Item key="2028" text="2028" />
+                            </ComboBox>
+                        </VBox>
+                        <VBox width="12rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <Label text="월" required="true" />
+                            <ComboBox
+                                id="monthComboBox"
+                                width="100%"
+                                selectedKey="{view>/month}">
+                                <core:Item key="001" text="01" />
+                                <core:Item key="002" text="02" />
+                                <core:Item key="003" text="03" />
+                                <core:Item key="004" text="04" />
+                                <core:Item key="005" text="05" />
+                                <core:Item key="006" text="06" />
+                                <core:Item key="007" text="07" />
+                                <core:Item key="008" text="08" />
+                                <core:Item key="009" text="09" />
+                                <core:Item key="010" text="10" />
+                                <core:Item key="011" text="11" />
+                                <core:Item key="012" text="12" />
+                            </ComboBox>
+                        </VBox>
+                        <VBox width="18rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <Label text="자재명" />
+                            <Input
+                                id="materialInput"
+                                placeholder="자재명 또는 자재번호"
+                                showValueHelp="true"
+                                valueHelpRequest=".onValueHelpRequest" />
+                        </VBox>
+                        <VBox width="14rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <Label text="산정상태" />
+                            <ComboBox
+                                id="statusComboBox"
+                                width="100%"
+                                selectedKey="">
+                                <core:Item key="" text="전체" />
+                                <core:Item key="Y" text="산정완료" />
+                                <core:Item key="N" text="산정전" />
+                            </ComboBox>
+                        </VBox>
+                        <Button
+                            text="조회"
+                            type="Emphasized"
+                            press=".onSearch"
+                            class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                            width="4rem" />
+                        <Button
+                            text="필터 초기화"
+                            press=".onResetSearch"
+                            class="sapUiTinyMarginBottom" />
+                    </HBox>
+                </VBox>
+            </Panel>
+
+            <HBox class="actualCostSummary sapUiSmallMarginBottom" renderType="Bare">
+                <VBox class="actualCostSummaryItem">
+                    <Text text="전체 자재" />
+                    <ObjectNumber number="{view>/summary/total}" unit="건" />
+                </VBox>
+                <VBox class="actualCostSummaryItem">
+                    <Text text="산정완료" />
+                    <ObjectNumber number="{view>/summary/completed}" unit="건" state="Success" />
+                </VBox>
+                <VBox class="actualCostSummaryItem">
+                    <Text text="산정중" />
+                    <ObjectNumber number="{view>/summary/processing}" unit="건" state="Warning" />
+                </VBox>
+                <VBox class="actualCostSummaryItem">
+                    <Text text="미산정" />
+                    <ObjectNumber number="{view>/summary/pending}" unit="건" state="Error" />
+                </VBox>
+            </HBox>
+
+            <t:Table
+                id="actualCostTable"
+                visibleRowCount="15"
+                rows="{
+                    path: '/ActualCostSet',
+                    events: {
+                        dataReceived: '.onActualCostDataUpdated',
+                        change: '.onActualCostDataUpdated'
+                    }
+                }"
+                selectionMode="None"
+                ariaLabelledBy="actualCostTitle">
+                <t:extension>
+                    <OverflowToolbar style="Clear">
+                        <Title id="actualCostTitle" text="자재 목록 ({view>/summary/total})" />
+                    </OverflowToolbar>
+                </t:extension>
+                <t:columns>
+                    <t:Column width="7rem">
+                        <Label text="자재번호" />
+                        <t:template>
+                            <Text text="{Matnr}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="10rem">
+                        <Label text="자재명" />
+                        <t:template>
+                            <Text text="{Maktx}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="7.5rem" hAlign="End">
+                        <Label text="생산수량 (계획)" />
+                        <t:template>
+                            <Text
+                                text="{
+                                    parts: [{path: 'Gamng'}, {path: 'Meins'}],
+                                    type: 'sap.ui.model.type.Unit',
+                                    formatOptions: {showMeasure: true}
+                                }"
+                                wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="7.5rem" hAlign="End">
+                        <Label text="완료수량 (실제)" />
+                        <t:template>
+                            <Text
+                                text="{
+                                    parts: [{path: 'ActQty'}, {path: 'Meins'}],
+                                    type: 'sap.ui.model.type.Unit',
+                                    formatOptions: {showMeasure: true}
+                                }"
+                                wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="7.5rem" hAlign="End">
+                        <Label text="재료비" />
+                        <t:template>
+                            <Text text="{parts: [{path: 'Dmatl'}, {path: 'Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="7.5rem" hAlign="End">
+                        <Label text="노무비" />
+                        <t:template>
+                            <Text text="{parts: [{path: 'Dlabr'}, {path: 'Dlabl'}, {path: 'Waers'}], formatter: '.formatCurrencyAmountFallback'}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="7.5rem" hAlign="End">
+                        <Label text="간접비" />
+                        <t:template>
+                            <Text text="{parts: [{path: 'Mohad'}, {path: 'Mmach'}, {path: 'Waers'}], formatter: '.formatCurrencyAmountFallback'}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="8rem" hAlign="End">
+                        <Label text="총 실제원가" />
+                        <t:template>
+                            <Text text="{parts: [{path: 'Wkg00'}, {path: 'Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="8rem" hAlign="End">
+                        <Label text="실제단가" />
+                        <t:template>
+                            <Text text="{parts: [{path: 'Stprs'}, {path: 'Waers'}, {path: 'Meins'}], formatter: '.formatUnitCost'}" wrapping="false" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="6.5rem" hAlign="Center">
+                        <Label text="산정상태" />
+                        <t:template>
+                            <ObjectStatus
+                                text="{path: 'Stat', formatter: '.formatCostStatusText'}"
+                                state="{path: 'Stat', formatter: '.formatCostStatusState'}"
+                                class="actualCostStatusText" />
+                        </t:template>
+                    </t:Column>
+                </t:columns>
+            </t:Table>
+        </VBox>
+    </Page>
+</mvc:View>

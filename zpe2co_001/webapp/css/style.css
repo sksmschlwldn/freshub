@@ -1,0 +1,50 @@
+.actualCostFilterBar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #ffffff;
+    box-shadow: 0 0.125rem 0.5rem rgba(34, 53, 72, 0.12);
+}
+
+.actualCostFilterBar .sapMPanelWrappingDiv,
+.actualCostFilterBar .sapMPanelContent {
+    background: #ffffff;
+}
+
+.actualCostSummary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(10rem, 1fr));
+    border: 1px solid #d5dce5;
+    border-radius: 0.5rem;
+    background: #ffffff;
+}
+
+.actualCostSummaryItem {
+    min-height: 4.5rem;
+    padding: 1rem 1.25rem;
+    border-right: 1px solid #d5dce5;
+    justify-content: center;
+}
+
+.actualCostSummaryItem:last-child {
+    border-right: 0;
+}
+
+.actualCostSummaryItem .sapMText {
+    color: #354a5f;
+    font-weight: 700;
+}
+
+.actualCostStatusText .sapMObjStatusText {
+    font-weight: 700;
+}
+
+@media (max-width: 64rem) {
+    .actualCostSummary {
+        grid-template-columns: repeat(2, minmax(10rem, 1fr));
+    }
+
+    .actualCostSummaryItem:nth-child(2) {
+        border-right: 0;
+    }
+}
