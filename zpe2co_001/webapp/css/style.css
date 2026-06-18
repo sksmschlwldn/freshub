@@ -1,50 +1,128 @@
 .actualCostFilterBar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #ffffff;
-    box-shadow: 0 0.125rem 0.5rem rgba(34, 53, 72, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  box-shadow: 0 0.125rem 0.5rem rgba(34, 53, 72, 0.12);
 }
 
 .actualCostFilterBar .sapMPanelWrappingDiv,
 .actualCostFilterBar .sapMPanelContent {
-    background: #ffffff;
+  background: #ffffff;
 }
 
 .actualCostSummary {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(10rem, 1fr));
-    border: 1px solid #d5dce5;
-    border-radius: 0.5rem;
-    background: #ffffff;
+  border: 1px solid #d5dce5;
+  border-radius: 0.5rem;
+  background: #ffffff;
 }
 
 .actualCostSummaryItem {
-    min-height: 4.5rem;
-    padding: 1rem 1.25rem;
-    border-right: 1px solid #d5dce5;
-    justify-content: center;
+  flex: 1 1 0;
+  min-height: 4.5rem;
+  padding: 1rem 1.75rem;
+  border-right: 1px solid #d5dce5;
+  gap: 0.875rem;
+  justify-content: flex-start !important;
 }
 
 .actualCostSummaryItem:last-child {
-    border-right: 0;
+  border-right: 0;
 }
 
 .actualCostSummaryItem .sapMText {
-    color: #354a5f;
-    font-weight: 700;
+  color: #354a5f;
+  font-weight: 700;
+}
+
+.actualCostSummaryText {
+  justify-content: center;
+}
+
+.actualCostSummaryIcon {
+  width: 3.25rem;
+  height: 3.25rem;
+  font-size: 1.8rem;
+  flex: 0 0 auto;
+}
+
+.actualCostSummaryIconAll {
+  background-color: #d8ecff !important;
+  border: 1px solid #b8d7ff;
+  color: #0a6ed1 !important;
+}
+
+.actualCostSummaryIconComplete {
+  background-color: #dcf7e3 !important;
+  border: 1px solid #bdeac8;
+  color: #14b35c !important;
+}
+
+.actualCostSummaryIconPending {
+  background-color: #ffe1e6 !important;
+  border: 1px solid #ffc7d0;
+  color: #f54d5e !important;
+}
+
+.actualCostSummaryIconAll .sapUiIcon,
+.actualCostSummaryIconAll .sapFAvatarIcon {
+  color: #0a6ed1 !important;
+}
+
+.actualCostSummaryIconComplete .sapUiIcon,
+.actualCostSummaryIconComplete .sapFAvatarIcon {
+  color: #14b35c !important;
+}
+
+.actualCostSummaryIconPending .sapUiIcon,
+.actualCostSummaryIconPending .sapFAvatarIcon {
+  color: #f54d5e !important;
 }
 
 .actualCostStatusText .sapMObjStatusText {
-    font-weight: 700;
+  font-weight: 700;
+}
+
+.actualCostStatusText.sapMObjStatusSuccess .sapMObjStatusText,
+.actualCostStatusText .sapMObjStatusSuccess .sapMObjStatusText {
+  color: #14b35c !important;
+}
+
+.actualCostStatusText.sapMObjStatusError .sapMObjStatusText,
+.actualCostStatusText .sapMObjStatusError .sapMObjStatusText {
+  color: #f54d5e !important;
+}
+
+.actualCostStatusText .sapMObjStatusIcon {
+  font-size: 0.5rem;
+  line-height: 1;
+  margin-right: 0.25rem;
+  vertical-align: middle;
+}
+
+.actualCostCalculateButton .sapMBtnInner {
+  background: #ffffff;
+  border-color: #0a6ed1;
+  color: #0a6ed1;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.actualCostCalculateButton .sapMBtnContent {
+  color: #0a6ed1;
+  font-weight: 700;
+}
+
+.actualCostCalculateButton:hover .sapMBtnInner {
+  background: #ebf5ff;
 }
 
 @media (max-width: 64rem) {
-    .actualCostSummary {
-        grid-template-columns: repeat(2, minmax(10rem, 1fr));
-    }
+  .actualCostSummary {
+    grid-template-columns: repeat(2, minmax(10rem, 1fr));
+  }
 
-    .actualCostSummaryItem:nth-child(2) {
-        border-right: 0;
-    }
+  .actualCostSummaryItem:nth-child(2) {
+    border-right: 0;
+  }
 }

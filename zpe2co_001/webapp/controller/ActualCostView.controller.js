@@ -12,10 +12,10 @@ sap.ui.define([
             this.getView().setModel(new JSONModel({
                 year: "",
                 month: "",
+                items: [],
                 summary: {
                     total: 0,
                     completed: 0,
-                    processing: 0,
                     pending: 0
                 }
             }), "view");
@@ -39,11 +39,26 @@ sap.ui.define([
                 return;
             }
 
-            const oBinding = this.byId("actualCostTable").getBinding("rows");
+            const oTable = this.byId("actualCostTable");
 
-            if (oBinding) {
-                oBinding.filter(aFilters);
-            }
+            oTable.setBusy(true);
+
+            this.getView().getModel().read("/ActualCostSet", {
+                filters: aFilters,
+                success: (oData) => {
+                    const aItems = this._applyClientStatusFilter(oData.results || []);
+
+                    this.getView().getModel("view").setProperty("/items", aItems);
+                    this._updateSummary(aItems);
+                    oTable.setBusy(false);
+                },
+                error: () => {
+                    this.getView().getModel("view").setProperty("/items", []);
+                    this._updateSummary([]);
+                    oTable.setBusy(false);
+                    MessageToast.show("실제원가 조회에 실패했습니다.");
+                }
+            });
         },
 
         onResetSearch() {
@@ -57,34 +72,36 @@ sap.ui.define([
             MessageToast.show("검색 도움말 준비 중입니다.");
         },
 
-        onActualCostDataUpdated() {
-            const oTable = this.byId("actualCostTable");
-            const oBinding = oTable?.getBinding("rows");
+        onPressCalculate(oEvent) {
+            const oContext = oEvent.getSource().getBindingContext("view");
+            const sMatnr = oContext?.getProperty("Matnr");
 
-            if (!oBinding) {
-                return;
-            }
+            MessageToast.show(sMatnr ? `${sMatnr} 산정 준비 중입니다.` : "산정 준비 중입니다.");
+        },
 
-            const iLength = Math.max(oBinding.getLength(), 0);
-            const aContexts = oBinding.getContexts(0, iLength);
-            const oSummary = aContexts.reduce((oResult, oContext) => {
-                const sStat = oContext.getProperty("Stat");
+        onPressDetail(oEvent) {
+            const oContext = oEvent.getSource().getBindingContext("view");
+            const sMatnr = oContext?.getProperty("Matnr");
+
+            MessageToast.show(sMatnr ? `${sMatnr} 상세 준비 중입니다.` : "상세 준비 중입니다.");
+        },
+
+        _updateSummary(aItems) {
+            const oSummary = aItems.reduce((oResult, oItem) => {
+                const sStat = oItem.Stat;
 
                 oResult.total += 1;
 
                 if (sStat === "Y") {
                     oResult.completed += 1;
-                } else if (sStat === "N" || !sStat) {
-                    oResult.pending += 1;
                 } else {
-                    oResult.processing += 1;
+                    oResult.pending += 1;
                 }
 
                 return oResult;
             }, {
                 total: 0,
                 completed: 0,
-                processing: 0,
                 pending: 0
             });
 
@@ -93,14 +110,10 @@ sap.ui.define([
 
         formatCostStatusText(sStat) {
             if (sStat === "Y") {
-                return "산정완료";
+                return "⏺ 산정완료";
             }
 
-            if (sStat === "N" || !sStat) {
-                return "산정전";
-            }
-
-            return "산정중";
+            return "⏺ 산정전";
         },
 
         formatCostStatusState(sStat) {
@@ -108,11 +121,11 @@ sap.ui.define([
                 return "Success";
             }
 
-            if (sStat === "N" || !sStat) {
-                return "Error";
-            }
+            return "Error";
+        },
 
-            return "Warning";
+        formatCalculateButtonVisible(sStat) {
+            return this._isPendingStatus(sStat);
         },
 
         formatCurrencyAmount(vAmount, sCurrency) {
@@ -132,6 +145,36 @@ sap.ui.define([
             return this.formatCurrencyAmount(vAmount, sCurrency);
         },
 
+        formatActualQuantity(vQuantity, sUnit, sStat) {
+            if (this._isPendingStatus(sStat)) {
+                return "-";
+            }
+
+            if (vQuantity === null || vQuantity === undefined || vQuantity === "") {
+                return "-";
+            }
+
+            const sQuantity = this._formatNumber(vQuantity);
+
+            return sUnit ? `${sQuantity} ${sUnit}` : sQuantity;
+        },
+
+        formatActualCurrencyAmount(vAmount, sCurrency, sStat) {
+            if (this._isPendingStatus(sStat)) {
+                return "-";
+            }
+
+            return this.formatCurrencyAmount(vAmount, sCurrency);
+        },
+
+        formatActualCurrencyAmountFallback(vPrimaryAmount, vFallbackAmount, sCurrency, sStat) {
+            if (this._isPendingStatus(sStat)) {
+                return "-";
+            }
+
+            return this.formatCurrencyAmountFallback(vPrimaryAmount, vFallbackAmount, sCurrency);
+        },
+
         formatUnitCost(vAmount, sCurrency, sUnit) {
             if (vAmount === null || vAmount === undefined || vAmount === "") {
                 return "-";
@@ -142,11 +185,18 @@ sap.ui.define([
             return sUnit ? `${sAmount}/${sUnit}` : sAmount;
         },
 
+        formatActualUnitCost(vAmount, sCurrency, sUnit, sStat) {
+            if (this._isPendingStatus(sStat)) {
+                return "-";
+            }
+
+            return this.formatUnitCost(vAmount, sCurrency, sUnit);
+        },
+
         _createSearchFilters() {
             const sYear = this.byId("yearComboBox").getSelectedKey();
             const sMonth = this.byId("monthComboBox").getSelectedKey();
             const sMaterial = this.byId("materialInput").getValue().trim();
-            const sStat = this.byId("statusComboBox").getSelectedKey();
             const aFilters = [];
 
             if (!sYear || !sMonth) {
@@ -158,20 +208,24 @@ sap.ui.define([
             aFilters.push(new Filter("Poper", FilterOperator.EQ, sMonth));
 
             if (sMaterial) {
-                aFilters.push(new Filter({
-                    filters: [
-                        new Filter("Matnr", FilterOperator.Contains, sMaterial),
-                        new Filter("Maktx", FilterOperator.Contains, sMaterial)
-                    ],
-                    and: false
-                }));
-            }
-
-            if (sStat) {
-                aFilters.push(new Filter("Stat", FilterOperator.EQ, sStat));
+                aFilters.push(new Filter("Matnr", FilterOperator.Contains, sMaterial));
             }
 
             return aFilters;
+        },
+
+        _applyClientStatusFilter(aItems) {
+            const sStat = this.byId("statusComboBox").getSelectedKey();
+
+            if (sStat === "Y") {
+                return aItems.filter((oItem) => oItem.Stat === "Y");
+            }
+
+            if (sStat === "N") {
+                return aItems.filter((oItem) => this._isPendingStatus(oItem.Stat));
+            }
+
+            return aItems;
         },
 
         _setDefaultSearchValues() {
@@ -203,6 +257,10 @@ sap.ui.define([
             }
 
             return sCurrency || "";
+        },
+
+        _isPendingStatus(sStat) {
+            return sStat !== "Y";
         }
     });
 });

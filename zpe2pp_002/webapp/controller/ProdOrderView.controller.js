@@ -128,13 +128,13 @@ sap.ui.define(
       formatProdStatusText(sStat) {
         switch (sStat) {
           case "1":
-            return "진행중";
+            return "⏺ 진행중";
           case "2":
-            return "완료";
+            return "⏺ 완료";
           case "3":
-            return "취소";
+            return "⏺ 취소";
           default:
-            return "미진행";
+            return "⏺ 미진행";
         }
       },
 

@@ -71,13 +71,34 @@
 
 .prodDetailStatusPill {
     padding: 0.125rem 0.625rem;
-    border: 1px solid #b8d7ff;
+    border: 1px solid #d5dadd;
     border-radius: 0.375rem;
-    background: #edf5ff;
+    background: #f5f6f7;
 }
 
 .prodDetailStatusPill .sapMObjStatusText {
     font-weight: 700;
+    color: #4B4B4B !important;
+}
+
+.prodDetailStatusPill.sapMObjStatusSuccess {
+    border-color: #14B35C;
+    background: #eefaf3;
+}
+
+.prodDetailStatusPill.sapMObjStatusSuccess .sapMObjStatusText,
+.prodDetailStatusPill.sapMObjStatusSuccess .sapMObjStatusIcon {
+    color: #14B35C !important;
+}
+
+.prodDetailStatusPill.sapMObjStatusInformation {
+    border-color: #6093FF;
+    background: #eff5ff;
+}
+
+.prodDetailStatusPill.sapMObjStatusInformation .sapMObjStatusText,
+.prodDetailStatusPill.sapMObjStatusInformation .sapMObjStatusIcon {
+    color: #6093FF !important;
 }
 
 .prodDetailTabPanel .sapMPanelContent {
@@ -134,4 +155,16 @@
 
 .prodStatusText .sapMObjStatusText {
     font-weight: 700;
+}
+
+.prodStatusText.sapMObjStatusSuccess .sapMObjStatusText {
+    color: #14B35C !important;
+}
+
+.prodStatusText.sapMObjStatusInformation .sapMObjStatusText {
+    color: #6093FF !important;
+}
+
+.prodStatusText.sapMObjStatusNone .sapMObjStatusText {
+    color: #4B4B4B !important;
 }

@@ -3,7 +3,7 @@
     xmlns:t="sap.ui.table"
     xmlns:core="sap.ui.core"
     xmlns="sap.m">
-    <Page id="page" title="실제원가 산정">
+    <Page id="page">
         <VBox class="sapUiSmallMargin">
             <Panel expandable="false" class="actualCostFilterBar sapUiNoContentPadding sapUiSmallMarginBottom">
                 <VBox class="sapUiSmallMargin">
@@ -42,14 +42,14 @@
                             </ComboBox>
                         </VBox>
                         <VBox width="18rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
-                            <Label text="자재명" />
+                            <Label text="자재코드" />
                             <Input
                                 id="materialInput"
-                                placeholder="자재명 또는 자재번호"
+                                placeholder="자재코드"
                                 showValueHelp="true"
                                 valueHelpRequest=".onValueHelpRequest" />
                         </VBox>
-                        <VBox width="14rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                    <VBox width="14rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
                             <Label text="산정상태" />
                             <ComboBox
                                 id="statusComboBox"
@@ -75,34 +75,42 @@
             </Panel>
 
             <HBox class="actualCostSummary sapUiSmallMarginBottom" renderType="Bare">
-                <VBox class="actualCostSummaryItem">
-                    <Text text="전체 자재" />
-                    <ObjectNumber number="{view>/summary/total}" unit="건" />
-                </VBox>
-                <VBox class="actualCostSummaryItem">
-                    <Text text="산정완료" />
-                    <ObjectNumber number="{view>/summary/completed}" unit="건" state="Success" />
-                </VBox>
-                <VBox class="actualCostSummaryItem">
-                    <Text text="산정중" />
-                    <ObjectNumber number="{view>/summary/processing}" unit="건" state="Warning" />
-                </VBox>
-                <VBox class="actualCostSummaryItem">
-                    <Text text="미산정" />
-                    <ObjectNumber number="{view>/summary/pending}" unit="건" state="Error" />
-                </VBox>
+                <HBox class="actualCostSummaryItem" alignItems="Center" justifyContent="Start">
+                    <Avatar
+                        src="sap-icon://product"
+                        displayShape="Circle"
+                        class="actualCostSummaryIcon actualCostSummaryIconAll" />
+                    <VBox class="actualCostSummaryText">
+                        <Text text="전체 자재" />
+                        <ObjectNumber number="{view>/summary/total}" unit="건" />
+                    </VBox>
+                </HBox>
+                <HBox class="actualCostSummaryItem" alignItems="Center" justifyContent="Start">
+                    <Avatar
+                        src="sap-icon://sys-enter"
+                        displayShape="Circle"
+                        class="actualCostSummaryIcon actualCostSummaryIconComplete" />
+                    <VBox class="actualCostSummaryText">
+                        <Text text="산정완료" />
+                        <ObjectNumber number="{view>/summary/completed}" unit="건" state="Success" />
+                    </VBox>
+                </HBox>
+                <HBox class="actualCostSummaryItem" alignItems="Center" justifyContent="Start">
+                    <Avatar
+                        src="sap-icon://message-warning"
+                        displayShape="Circle"
+                        class="actualCostSummaryIcon actualCostSummaryIconPending" />
+                    <VBox class="actualCostSummaryText">
+                        <Text text="산정전" />
+                        <ObjectNumber number="{view>/summary/pending}" unit="건" state="Error" />
+                    </VBox>
+                </HBox>
             </HBox>
 
             <t:Table
                 id="actualCostTable"
-                visibleRowCount="15"
-                rows="{
-                    path: '/ActualCostSet',
-                    events: {
-                        dataReceived: '.onActualCostDataUpdated',
-                        change: '.onActualCostDataUpdated'
-                    }
-                }"
+                visibleRowCount="12"
+                rows="{view>/items}"
                 selectionMode="None"
                 ariaLabelledBy="actualCostTitle">
                 <t:extension>
@@ -114,76 +122,94 @@
                     <t:Column width="7rem">
                         <Label text="자재번호" />
                         <t:template>
-                            <Text text="{Matnr}" wrapping="false" />
+                            <Text text="{view>Matnr}" wrapping="false" />
                         </t:template>
                     </t:Column>
                     <t:Column width="10rem">
                         <Label text="자재명" />
                         <t:template>
-                            <Text text="{Maktx}" wrapping="false" />
+                            <Text text="{view>Maktx}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="7.5rem" hAlign="End">
+                    <t:Column width="7rem" hAlign="End">
                         <Label text="생산수량 (계획)" />
                         <t:template>
                             <Text
                                 text="{
-                                    parts: [{path: 'Gamng'}, {path: 'Meins'}],
+                                    parts: [{path: 'view>Gamng'}, {path: 'view>Meins'}],
                                     type: 'sap.ui.model.type.Unit',
                                     formatOptions: {showMeasure: true}
                                 }"
                                 wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="7.5rem" hAlign="End">
+                    <t:Column width="7rem" hAlign="End">
                         <Label text="완료수량 (실제)" />
                         <t:template>
                             <Text
-                                text="{
-                                    parts: [{path: 'ActQty'}, {path: 'Meins'}],
-                                    type: 'sap.ui.model.type.Unit',
-                                    formatOptions: {showMeasure: true}
-                                }"
+                                text="{parts: [{path: 'view>ActQty'}, {path: 'view>Meins'}, {path: 'view>Stat'}], formatter: '.formatActualQuantity'}"
                                 wrapping="false" />
                         </t:template>
                     </t:Column>
                     <t:Column width="7.5rem" hAlign="End">
                         <Label text="재료비" />
                         <t:template>
-                            <Text text="{parts: [{path: 'Dmatl'}, {path: 'Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                            <Text text="{parts: [{path: 'view>Dmatl'}, {path: 'view>Waers'}, {path: 'view>Stat'}], formatter: '.formatActualCurrencyAmount'}" wrapping="false" />
                         </t:template>
                     </t:Column>
                     <t:Column width="7.5rem" hAlign="End">
                         <Label text="노무비" />
                         <t:template>
-                            <Text text="{parts: [{path: 'Dlabr'}, {path: 'Dlabl'}, {path: 'Waers'}], formatter: '.formatCurrencyAmountFallback'}" wrapping="false" />
+                            <Text text="{parts: [{path: 'view>Dlabr'}, {path: 'view>Dlabl'}, {path: 'view>Waers'}, {path: 'view>Stat'}], formatter: '.formatActualCurrencyAmountFallback'}" wrapping="false" />
                         </t:template>
                     </t:Column>
                     <t:Column width="7.5rem" hAlign="End">
                         <Label text="간접비" />
                         <t:template>
-                            <Text text="{parts: [{path: 'Mohad'}, {path: 'Mmach'}, {path: 'Waers'}], formatter: '.formatCurrencyAmountFallback'}" wrapping="false" />
+                            <Text text="{parts: [{path: 'view>Mohad'}, {path: 'view>Mmach'}, {path: 'view>Waers'}, {path: 'view>Stat'}], formatter: '.formatActualCurrencyAmountFallback'}" wrapping="false" />
                         </t:template>
                     </t:Column>
                     <t:Column width="8rem" hAlign="End">
                         <Label text="총 실제원가" />
                         <t:template>
-                            <Text text="{parts: [{path: 'Wkg00'}, {path: 'Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                            <Text text="{parts: [{path: 'view>Wkg00'}, {path: 'view>Waers'}, {path: 'view>Stat'}], formatter: '.formatActualCurrencyAmount'}" wrapping="false" />
                         </t:template>
                     </t:Column>
                     <t:Column width="8rem" hAlign="End">
                         <Label text="실제단가" />
                         <t:template>
-                            <Text text="{parts: [{path: 'Stprs'}, {path: 'Waers'}, {path: 'Meins'}], formatter: '.formatUnitCost'}" wrapping="false" />
+                            <Text text="{parts: [{path: 'view>Stprs'}, {path: 'view>Waers'}, {path: 'view>Meins'}, {path: 'view>Stat'}], formatter: '.formatActualUnitCost'}" wrapping="false" />
                         </t:template>
                     </t:Column>
                     <t:Column width="6.5rem" hAlign="Center">
                         <Label text="산정상태" />
                         <t:template>
                             <ObjectStatus
-                                text="{path: 'Stat', formatter: '.formatCostStatusText'}"
-                                state="{path: 'Stat', formatter: '.formatCostStatusState'}"
+                                text="{path: 'view>Stat', formatter: '.formatCostStatusText'}"
+                                state="{path: 'view>Stat', formatter: '.formatCostStatusState'}"
                                 class="actualCostStatusText" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="5.4rem" hAlign="Center">
+                        <Label text="산정" />
+                        <t:template>
+                            <Button
+                                text="산정"
+                                type="Default"
+                                width="4rem"
+                                class="actualCostCalculateButton"
+                                visible="{path: 'view>Stat', formatter: '.formatCalculateButtonVisible'}"
+                                press=".onPressCalculate" />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="4rem" hAlign="Center">
+                        <Label text="상세" />
+                        <t:template>
+                            <Button
+                                icon="sap-icon://navigation-right-arrow"
+                                type="Transparent"
+                                tooltip="상세"
+                                press=".onPressDetail" />
                         </t:template>
                     </t:Column>
                 </t:columns>

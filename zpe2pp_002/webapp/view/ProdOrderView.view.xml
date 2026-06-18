@@ -3,7 +3,7 @@
     xmlns:t="sap.ui.table"
     xmlns:core="sap.ui.core"
     xmlns="sap.m">
-    <Page id="page" title="생산 오더">
+    <Page id="page" showHeader="false">
         <VBox class="sapUiSmallMargin">
             <Panel headerText="조회 조건" expandable="false" class="prodFilterBar sapUiNoContentPadding sapUiSmallMarginBottom">
                 <VBox class="sapUiSmallMargin">
