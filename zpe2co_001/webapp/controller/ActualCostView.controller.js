@@ -3,8 +3,20 @@ sap.ui.define([
     "sap/m/MessageToast",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/model/json/JSONModel"
-], (Controller, MessageToast, Filter, FilterOperator, JSONModel) => {
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/model/odata/v2/ODataModel",
+    "sap/m/SelectDialog",
+    "sap/m/StandardListItem"
+], (
+    Controller,
+    MessageToast,
+    Filter,
+    FilterOperator,
+    JSONModel,
+    ODataModel,
+    SelectDialog,
+    StandardListItem
+) => {
     "use strict";
 
     return Controller.extend("zpe2.co001.zpe2co001.controller.ActualCostView", {
@@ -68,8 +80,15 @@ sap.ui.define([
             this.onSearch();
         },
 
-        onValueHelpRequest() {
-            MessageToast.show("검색 도움말 준비 중입니다.");
+        onValueHelpRequest(oEvent) {
+            const oInput = oEvent.getSource();
+
+            if (oInput.getId().includes("materialInput")) {
+                this._openMaterialValueHelp(oInput);
+                return;
+            }
+
+            MessageToast.show("검색 도움말을 찾을 수 없습니다.");
         },
 
         onPressCalculate(oEvent) {
@@ -228,6 +247,88 @@ sap.ui.define([
             return aItems;
         },
 
+        _openMaterialValueHelp(oInput) {
+            const oDialog = this._getMaterialValueHelpDialog();
+            const oModel = new ODataModel("/sap/opu/odata/sap/ZCDS_E2_PP_0009_CDS/", {
+                useBatch: false,
+                defaultCountMode: "None"
+            });
+
+            oDialog.data("input", oInput);
+            oDialog.setBusy(true);
+            oDialog.setModel(new JSONModel({
+                items: []
+            }), "valueHelp");
+            oDialog.open();
+
+            oModel.read("/PlnbezSet", {
+                success: (oData) => {
+                    const aItems = (oData.results || [])
+                        .map((oRow) => ({
+                            key: this._getFirstExistingValue(oRow, ["Plnbez", "Matnr"]),
+                            description: this._getFirstExistingValue(oRow, ["Maktx"]),
+                            row: oRow
+                        }))
+                        .filter((oItem) => oItem.key);
+
+                    oDialog.getModel("valueHelp").setProperty("/items", aItems);
+                    oDialog.setBusy(false);
+                },
+                error: () => {
+                    oDialog.setBusy(false);
+                    MessageToast.show("자재코드 검색 도움말을 불러오지 못했습니다.");
+                }
+            });
+        },
+
+        _getMaterialValueHelpDialog() {
+            if (!this._oMaterialValueHelpDialog) {
+                this._oMaterialValueHelpDialog = new SelectDialog({
+                    title: "자재코드",
+                    noDataText: "조회된 자재코드가 없습니다.",
+                    search: (oEvent) => {
+                        const sValue = oEvent.getParameter("value");
+                        const oBinding = oEvent.getSource().getBinding("items");
+
+                        oBinding.filter(sValue ? new Filter({
+                            filters: [
+                                new Filter("key", FilterOperator.Contains, sValue),
+                                new Filter("description", FilterOperator.Contains, sValue)
+                            ],
+                            and: false
+                        }) : []);
+                    },
+                    confirm: (oEvent) => {
+                        const oSelectedItem = oEvent.getParameter("selectedItem");
+                        const oInput = oEvent.getSource().data("input");
+
+                        if (oSelectedItem && oInput) {
+                            oInput.setValue(oSelectedItem.getTitle());
+                            this.onSearch();
+                        }
+                    },
+                    cancel: (oEvent) => {
+                        oEvent.getSource().getBinding("items").filter([]);
+                    }
+                });
+
+                this._oMaterialValueHelpDialog.bindAggregation("items", {
+                    path: "valueHelp>/items",
+                    template: new StandardListItem({
+                        title: "{valueHelp>key}",
+                        description: "{valueHelp>description}",
+                        type: "Active"
+                    })
+                });
+
+                this.getView().addDependent(this._oMaterialValueHelpDialog);
+            }
+
+            this._oMaterialValueHelpDialog.getBinding("items")?.filter([]);
+
+            return this._oMaterialValueHelpDialog;
+        },
+
         _setDefaultSearchValues() {
             const oToday = new Date();
             const sYear = String(oToday.getFullYear());
@@ -261,6 +362,12 @@ sap.ui.define([
 
         _isPendingStatus(sStat) {
             return sStat !== "Y";
+        },
+
+        _getFirstExistingValue(oRow, aFields) {
+            const sField = aFields.find((sName) => oRow[sName]);
+
+            return sField ? oRow[sField] : "";
         }
     });
 });

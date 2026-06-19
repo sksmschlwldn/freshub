@@ -3,7 +3,7 @@
     xmlns:t="sap.ui.table"
     xmlns:core="sap.ui.core"
     xmlns="sap.m">
-    <Page id="page">
+    <Page id="page" showHeader="false">
         <VBox class="sapUiSmallMargin">
             <Panel expandable="false" class="actualCostFilterBar sapUiNoContentPadding sapUiSmallMarginBottom">
                 <VBox class="sapUiSmallMargin">
@@ -14,11 +14,12 @@
                                 id="yearComboBox"
                                 width="100%"
                                 selectedKey="{view>/year}">
+                                <core:Item key="2021" text="2021" />
+                                <core:Item key="2022" text="2022" />
+                                <core:Item key="2023" text="2023" />
                                 <core:Item key="2024" text="2024" />
                                 <core:Item key="2025" text="2025" />
                                 <core:Item key="2026" text="2026" />
-                                <core:Item key="2027" text="2027" />
-                                <core:Item key="2028" text="2028" />
                             </ComboBox>
                         </VBox>
                         <VBox width="12rem" class="sapUiSmallMarginEnd sapUiTinyMarginBottom">
@@ -109,6 +110,7 @@
 
             <t:Table
                 id="actualCostTable"
+                class="actualCostTable"
                 visibleRowCount="12"
                 rows="{view>/items}"
                 selectionMode="None"

@@ -79,6 +79,23 @@
   color: #f54d5e !important;
 }
 
+.actualCostTable .sapUiTableColHdrCnt,
+.actualCostTable .sapUiTableColHdrTr,
+.actualCostTable .sapUiTableCol,
+.actualCostTable .sapUiTableHeaderDataCell {
+  background-color: #f7f9fb !important;
+}
+
+.actualCostTable .sapUiTableColCell {
+  background-color: #f7f9fb !important;
+  border-bottom-color: #d5dce5;
+}
+
+.actualCostTable .sapUiTableColCell .sapMLabel {
+  color: #354a5f;
+  font-weight: 700;
+}
+
 .actualCostStatusText .sapMObjStatusText {
   font-weight: 700;
 }
@@ -101,20 +118,23 @@
 }
 
 .actualCostCalculateButton .sapMBtnInner {
-  background: #ffffff;
+  background: #0a6ed1;
   border-color: #0a6ed1;
-  color: #0a6ed1;
+  color: #ffffff;
+  border-radius: 0.25rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
 
 .actualCostCalculateButton .sapMBtnContent {
-  color: #0a6ed1;
+  color: #ffffff;
   font-weight: 700;
 }
 
+.actualCostCalculateButton .sapMBtnInner.sapMBtnHoverable:hover,
 .actualCostCalculateButton:hover .sapMBtnInner {
-  background: #ebf5ff;
+  background: #0a6ed1;
+  border-color: #0a6ed1;
 }
 
 @media (max-width: 64rem) {
