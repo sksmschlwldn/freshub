@@ -1,0 +1,150 @@
+{
+  "_version": "1.60.0",
+  "sap.app": {
+    "id": "zpe2.pp003.zpe2pp003",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.25.0",
+      "toolsId": "797421e1-febe-43d7-92b9-cd274a889e8a"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZCDS_E2_PP_0012_CDS/",
+        "type": "OData",
+        "settings": {
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "yieldService": {
+        "uri": "/sap/opu/odata/sap/ZCDS_E2_PP_0013_CDS/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      },
+      "ratioService": {
+        "uri": "/sap/opu/odata/sap/ZCDS_E2_PP_0014_CDS/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "config": {
+      "fullWidth": true
+    },
+    "dependencies": {
+      "minUI5Version": "1.120.23",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.viz": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "zpe2.pp003.zpe2pp003.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "useBatch": false,
+          "defaultCountMode": "None"
+        }
+      },
+      "yield": {
+        "dataSource": "yieldService",
+        "preload": true,
+        "settings": {
+          "useBatch": false,
+          "defaultCountMode": "None"
+        }
+      },
+      "ratio": {
+        "dataSource": "ratioService",
+        "preload": true,
+        "settings": {
+          "useBatch": false,
+          "defaultCountMode": "None"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "zpe2.pp003.zpe2pp003.view",
+        "async": true,
+        "viewPath": "zpe2.pp003.zpe2pp003.view"
+      },
+      "routes": [
+        {
+          "name": "RouteProdOrderView",
+          "pattern": ":?query:",
+          "target": [
+            "TargetProdOrderView"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetProdOrderView": {
+          "id": "ProdOrderView",
+          "name": "ProdOrderView"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "zpe2.pp003.zpe2pp003.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

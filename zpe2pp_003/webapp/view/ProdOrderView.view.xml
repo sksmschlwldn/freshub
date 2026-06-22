@@ -1,0 +1,168 @@
+<mvc:View controllerName="zpe2.pp003.zpe2pp003.controller.ProdOrderView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns="sap.m">
+    <Page id="page" showHeader="false" class="prodDashPage">
+        <ScrollContainer height="100%" vertical="true">
+            <VBox class="prodDashRoot">
+                <HBox class="prodDashFilter" alignItems="Center" wrap="Wrap">
+                    <HBox alignItems="Center" class="prodDashDateBox">
+                        <Label text="기준일자" labelFor="baseDatePicker" class="prodDashDateLabel" />
+                        <DatePicker
+                            id="baseDatePicker"
+                            width="10rem"
+                            dateValue="{dashboard>/baseDate}"
+                            displayFormat="yyyy-MM-dd"
+                            valueFormat="yyyy-MM-dd"
+                            change=".onBaseDateChange" />
+                    </HBox>
+                    <Text text="{dashboard>/periodText/status}" class="prodDashPeriodText" />
+                    <Text text="{dashboard>/periodText/ratio}" class="prodDashPeriodText" />
+                    <Text text="{dashboard>/periodText/today}" class="prodDashPeriodText" />
+                </HBox>
+
+                <HBox class="prodKpiRow" wrap="Wrap" items="{dashboard>/kpis}">
+                    <VBox class="prodKpiCard">
+                        <customData>
+                            <core:CustomData key="total-card" value="{dashboard>isTotal}" writeToDom="true" />
+                        </customData>
+                        <HBox alignItems="Center" justifyContent="SpaceBetween">
+                            <core:Icon src="{dashboard>icon}" color="{dashboard>color}" size="2rem" class="prodKpiIcon" />
+                            <VBox alignItems="End">
+                                <Text text="{dashboard>title}" class="prodKpiTitle" />
+                                <HBox alignItems="Center" class="prodKpiCountRow">
+                                    <ObjectNumber
+                                        number="{dashboard>count}"
+                                        state="{dashboard>state}"
+                                        class="prodKpiNumber" />
+                                    <Text text="건" class="prodKpiUnit" />
+                                </HBox>
+                                <Text text="{dashboard>subText}" class="prodKpiSubText" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <HBox class="prodDashMainRow" wrap="Wrap">
+                    <VBox class="prodDashPanel prodProcessPanel">
+                        <HBox alignItems="Center" class="prodProcessHeader">
+                            <Title text="생산오더 진행현황" level="H3" class="prodPanelTitle" />
+                            <Text text="(최근 7일)" class="prodPanelSubTitle" />
+                        </HBox>
+
+                        <HBox class="prodProcessFlow" alignItems="Center" justifyContent="SpaceAround" items="{dashboard>/process}">
+                            <VBox class="prodProcessItem" alignItems="Center">
+                                <core:Icon src="{dashboard>icon}" color="{dashboard>color}" size="2rem" class="prodProcessIcon" />
+                                <Text text="{dashboard>title}" class="prodProcessTitle" />
+                                <HBox alignItems="Baseline">
+                                    <ObjectNumber number="{dashboard>count}" state="{dashboard>state}" class="prodProcessNumber" />
+                                    <Text text="건" class="prodProcessUnit" />
+                                </HBox>
+                            </VBox>
+                        </HBox>
+
+                        <HBox class="prodProcessLine" alignItems="Center" items="{dashboard>/process}">
+                            <VBox class="prodProcessDotWrap" alignItems="Center">
+                                <core:Icon src="sap-icon://circle-task-2" color="{dashboard>color}" size="0.7rem" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox class="prodDashPanel prodYieldPanel">
+                        <HBox alignItems="Center" class="prodYieldHeader">
+                            <Title text="최근 7일 생산량 추이" level="H3" class="prodPanelTitle" />
+                            <Text text="(EA)" class="prodPanelSubTitle" />
+                        </HBox>
+                        <HBox class="prodYieldLegend" alignItems="Center" justifyContent="Center">
+                            <HBox class="prodYieldLegendItem" alignItems="Center">
+                                <VBox class="prodYieldBarLegend" />
+                                <Text text="생산량(EA)" />
+                            </HBox>
+                            <HBox class="prodYieldLegendItem" alignItems="Center">
+                                <HBox class="prodYieldLineLegend" alignItems="Center">
+                                    <VBox class="prodYieldLineDot" />
+                                </HBox>
+                                <Text text="오더수(건)" />
+                            </HBox>
+                        </HBox>
+                        <viz:VizFrame
+                            id="yieldChart"
+                            width="100%"
+                            height="14rem"
+                            uiConfig="{applicationSet:'fiori'}"
+                            vizType="dual_combination"
+                            vizProperties="{
+                                'title': {'visible': false},
+                                'legend': {'visible': false},
+                                'plotArea': {
+                                    'colorPalette': ['#0a6ed1', '#d17f00'],
+                                    'dataShape': {'primaryAxis': ['bar'], 'secondAxis': ['line']},
+                                    'dataLabel': {'visible': true, 'type': 'value', 'position': 'outside'},
+                                    'marker': {'visible': true}
+                                },
+                                'valueAxis': {'title': {'visible': false}, 'label': {'visible': true}},
+                                'valueAxis2': {'title': {'visible': false}, 'label': {'visible': true}},
+                                'categoryAxis': {'title': {'visible': false}, 'label': {'visible': true}}
+                            }">
+                            <viz:dataset>
+                                <viz.data:FlattenedDataset data="{dashboard>/yield}">
+                                    <viz.data:dimensions>
+                                        <viz.data:DimensionDefinition name="일자" value="{dashboard>label}" />
+                                    </viz.data:dimensions>
+                                    <viz.data:measures>
+                                        <viz.data:MeasureDefinition name="생산량(EA)" value="{dashboard>prodQty}" />
+                                        <viz.data:MeasureDefinition name="오더수(건)" value="{dashboard>orderCnt}" />
+                                    </viz.data:measures>
+                                </viz.data:FlattenedDataset>
+                            </viz:dataset>
+                            <viz:feeds>
+                                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="생산량(EA)" />
+                                <viz.feeds:FeedItem uid="valueAxis2" type="Measure" values="오더수(건)" />
+                                <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="일자" />
+                            </viz:feeds>
+                        </viz:VizFrame>
+                    </VBox>
+
+                    <VBox class="prodDashPanel prodRatioPanel">
+                        <HBox alignItems="Center" class="prodRatioHeader">
+                            <Title text="제품별 생산량 TOP5" level="H3" class="prodPanelTitle" />
+                            <Text text="(최근 7일)" class="prodPanelSubTitle" />
+                        </HBox>
+                        <VBox class="prodTop5Rows" items="{dashboard>/ratioItems}">
+                            <HBox class="prodTop5Row" alignItems="Center">
+                                <Text text="{dashboard>maktx}" class="prodTop5Label" wrapping="false" />
+                                <VBox class="prodTop5BarTrack">
+                                    <VBox class="prodTop5Bar" width="{dashboard>barWidth}">
+                                        <customData>
+                                            <core:CustomData key="rank" value="{dashboard>rank}" writeToDom="true" />
+                                        </customData>
+                                    </VBox>
+                                </VBox>
+                                <Text text="{dashboard>prodQtyText}" class="prodTop5Value" textAlign="End" wrapping="false" />
+                            </HBox>
+                        </VBox>
+                        <HBox class="prodTop5Axis" alignItems="Start">
+                            <Text text="" class="prodTop5Label" />
+                            <HBox class="prodTop5AxisScale" justifyContent="SpaceBetween">
+                                <Text text="0" />
+                                <Text text="{dashboard>/ratioScaleMax}" />
+                            </HBox>
+                            <Text text="" class="prodTop5Value" />
+                        </HBox>
+                        <Text text="생산량 (EA)" class="prodRatioAxisTitle" />
+                    </VBox>
+                </HBox>
+
+                <VBox class="prodDashPanel prodTodayPlaceholder">
+                    <HBox alignItems="Baseline">
+                        <Title text="오늘 생산오더 목록" level="H3" class="prodPanelTitle" />
+                        <Text text="{dashboard>/periodText/todayTitle}" class="prodPanelSubTitle" />
+                    </HBox>
+                </VBox>
+            </VBox>
+        </ScrollContainer>
+    </Page>
+</mvc:View>
