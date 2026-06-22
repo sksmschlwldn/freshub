@@ -37,6 +37,24 @@
         "settings": {
           "odataVersion": "2.0"
         }
+      },
+      "todayService": {
+        "uri": "/sap/opu/odata/sap/ZCDS_E2_PP_0015_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "ZCDS_E2_PP_0015_CDS_VAN"
+          ],
+          "localUri": "localService/todayService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "ZCDS_E2_PP_0015_CDS_VAN": {
+        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCDS_E2_PP_0015_CDS_VAN',Version='0001')/$value/",
+        "type": "ODataAnnotation",
+        "settings": {
+          "localUri": "localService/todayService/ZCDS_E2_PP_0015_CDS_VAN.xml"
+        }
       }
     }
   },
@@ -98,6 +116,14 @@
       },
       "ratio": {
         "dataSource": "ratioService",
+        "preload": true,
+        "settings": {
+          "useBatch": false,
+          "defaultCountMode": "None"
+        }
+      },
+      "today": {
+        "dataSource": "todayService",
         "preload": true,
         "settings": {
           "useBatch": false,

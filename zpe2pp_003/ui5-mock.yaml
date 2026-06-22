@@ -39,6 +39,18 @@ server:
             metadataPath: ./webapp/localService/mainService/metadata.xml
             mockdataPath: ./webapp/localService/mainService/data
             generateMockData: true
+          - urlPath: /sap/opu/odata/sap/ZCDS_E2_PP_0013_CDS
+            metadataPath: ./webapp/localService/yieldService/metadata.xml
+            mockdataPath: ./webapp/localService/yieldService/data
+            generateMockData: true
+          - urlPath: /sap/opu/odata/sap/ZCDS_E2_PP_0014_CDS
+            metadataPath: ./webapp/localService/ratioService/metadata.xml
+            mockdataPath: ./webapp/localService/ratioService/data
+            generateMockData: true
+          - urlPath: /sap/opu/odata/sap/ZCDS_E2_PP_0015_CDS
+            metadataPath: ./webapp/localService/todayService/metadata.xml
+            mockdataPath: ./webapp/localService/todayService/data
+            generateMockData: true
         annotations:
-          - localPath: ./webapp/localService/mainService/ZCDS_E2_PP_0012_CDS_VAN.xml
-            urlPath: /sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCDS_E2_PP_0012_CDS_VAN',Version='0001')/$value/
+          - localPath: ./webapp/localService/todayService/ZCDS_E2_PP_0015_CDS_VAN.xml
+            urlPath: /sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZCDS_E2_PP_0015_CDS_VAN',Version='0001')/$value/

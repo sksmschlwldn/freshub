@@ -44,8 +44,9 @@
 }
 
 .prodKpiRow > .sapMFlexItem:first-child {
-  flex: 1.25 1 17rem;
-  min-width: 17rem;
+  /* 조절: 조회기간 총 생산오더 KPI 카드 너비 */
+  flex: 1.1 1 15.5rem;
+  min-width: 15.5rem;
 }
 
 .prodKpiCard {
@@ -70,10 +71,10 @@
 }
 
 .prodKpiTitle {
-    color: #1d2d44;
-    font-weight: 700;
-    line-height: 1.25rem;
-    text-align: right;
+  color: #1d2d44;
+  font-weight: 700;
+  line-height: 1.25rem;
+  text-align: right;
 }
 
 .prodKpiNumber .sapMObjectNumberText {
@@ -102,6 +103,8 @@
 }
 
 .prodDashMainRow {
+  /* 조절: 가운데 3개 패널의 공통 높이 */
+  --prodDashMiddleHeight: 17rem;
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   width: 100%;
@@ -120,7 +123,8 @@
 .prodProcessPanel {
   width: auto;
   min-width: 0;
-  min-height: 16rem;
+  min-height: 0;
+  height: var(--prodDashMiddleHeight);
 }
 
 .prodProcessHeader {
@@ -149,11 +153,18 @@
 .prodDashPlaceholder {
   width: auto;
   min-width: 0;
-  min-height: 16rem;
+  min-height: 0;
+  height: var(--prodDashMiddleHeight);
+}
+
+.prodRatioPanel {
+  min-height: 0;
+  height: var(--prodDashMiddleHeight);
 }
 
 .prodYieldPanel .sapVizFrame {
   margin-top: 0.25rem;
+  height: calc(var(--prodDashMiddleHeight) - 6rem) !important;
 }
 
 .prodYieldHeader {
@@ -166,8 +177,8 @@
 }
 
 .prodYieldLegend {
-  gap: 1.5rem;
-  min-height: 2.25rem;
+  gap: 1rem;
+  min-height: 0rem;
   margin-top: 0.25rem;
 }
 
@@ -224,7 +235,7 @@
 }
 
 .prodTop5Label {
-  width: 7.25rem;
+  width: 8rem;
   flex: 0 0 7.25rem;
   color: #1d2d44;
   font-weight: 700;
@@ -235,7 +246,9 @@
 }
 
 .prodTop5BarTrack {
-  flex: 1 1 auto;
+  /* 조절: 제품별 생산량 TOP5 막대 그래프 너비 */
+  flex: 0 1 12rem;
+  width: 12rem;
   min-width: 0;
   height: 1.15rem;
   border-radius: 0.2rem;
@@ -247,23 +260,23 @@
   height: 100%;
   min-width: 0.2rem;
   border-radius: 0.2rem;
-  background: #0a6ed1;
+  background: #898989;
 }
 
 .prodTop5Bar[data-rank="2"] {
-  background: #30914c;
+  background: #898989;
 }
 
 .prodTop5Bar[data-rank="3"] {
-  background: #d17f00;
+  background: #898989;
 }
 
 .prodTop5Bar[data-rank="4"] {
-  background: #6f42c1;
+  background: #898989;
 }
 
 .prodTop5Bar[data-rank="5"] {
-  background: #18a6c8;
+  background: #898989;
 }
 
 .prodTop5Value {
@@ -271,6 +284,7 @@
   flex: 0 0 5.5rem;
   color: #1d2d44;
   font-weight: 800;
+  margin-left: auto;
 }
 
 .prodTop5Axis {
@@ -280,8 +294,10 @@
 }
 
 .prodTop5AxisScale {
-  flex: 1 1 auto;
+  flex: 0 1 15rem;
+  width: 15rem;
   min-width: 0;
+  margin-right: auto;
   padding-top: 0.3rem;
   border-top: 1px solid #aebdcd;
 }
@@ -292,18 +308,80 @@
   font-weight: 700;
 }
 
-.prodRatioAxisTitle {
-  display: block;
-  width: 100%;
-  margin-top: 0.5rem;
-  color: #1d2d44;
-  font-size: 0.8rem;
-  font-weight: 800;
-  text-align: right;
+.prodTodayPanel {
+  min-height: 13rem;
 }
 
-.prodTodayPlaceholder {
-  min-height: 13rem;
+.prodTodayHeader {
+  gap: 0.35rem;
+}
+
+.prodTodayHeader .prodPanelSubTitle {
+  margin-left: 0;
+  font-size: 0.85rem;
+}
+
+.prodTodayTable {
+  margin-top: 0.75rem;
+  border: 1px solid #e0e7ef;
+}
+
+.prodTodayTable .sapMListTblHeaderCell {
+  background: #f5f7fa;
+}
+
+.prodTodayTable .sapMListTblHeaderCell .sapMText {
+  color: #344a64;
+  font-weight: 800;
+}
+
+.prodTodayTable .sapMLIB {
+  background: #ffffff;
+}
+
+.prodTodayTable .sapMListTblCell {
+  border-color: #e6ebf1;
+}
+
+.prodTodayTable .sapMLnk {
+  color: #0a6ed1;
+  font-weight: 700;
+}
+
+.prodTodayStatus {
+  display: inline-block;
+  min-width: 4.5rem;
+  padding: 0.125rem 0.45rem;
+  border-radius: 0.25rem;
+  background: #f1f4f7;
+  text-align: center;
+}
+
+.prodTodayStatus.sapMObjStatusSuccess {
+  background: #eaf7ed;
+}
+
+.prodTodayStatus.sapMObjStatusInformation {
+  background: #eaf3ff;
+}
+
+.prodTodayStatus.sapMObjStatusWarning {
+  background: #fff3e2;
+}
+
+.prodTodayStatus.sapMObjStatusError {
+  background: #ffebeb;
+}
+
+.prodTodayStatusGuide {
+  gap: 1.5rem;
+  padding: 0.85rem 1rem 0.15rem;
+}
+
+.prodTodayStatusGuide .sapMText {
+  color: #5b6b80;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .prodPanelTitle {
@@ -328,18 +406,20 @@
   flex: 1 1 0;
   min-width: 0;
   position: relative;
-  gap: 0.55rem;
+  /* 조절: 상태명과 건수 사이 세로 간격 */
+  gap: 1rem;
 }
 
 .prodProcessItem:not(:last-child)::after {
   position: absolute;
-  top: 1.05rem;
-  right: -0.45rem;
+  top: 1.375rem;
+  right: -0.7rem;
   color: #8090a3;
   content: "→";
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 700;
   line-height: 1;
+  transform: translateY(-50%);
 }
 
 .prodProcessIcon {
@@ -372,7 +452,8 @@
 
 .prodProcessLine {
   height: 1px;
-  margin-top: 1.5rem;
+  /* 조절: 건수와 하단 점/선 사이 세로 간격 */
+  margin-top: 2rem;
   background: #c8d1dc;
 }
 
@@ -381,6 +462,11 @@
   min-width: 0;
   position: relative;
   z-index: 1;
+}
+
+.vizChartText {
+  font-size: 12px;
+  font-weight: 700;
 }
 
 @media (max-width: 75rem) {
@@ -403,11 +489,11 @@
     padding: 0.75rem;
   }
 
-    .prodKpiRow > .sapMFlexItem,
-    .prodKpiRow > .sapMFlexItem:first-child {
-        flex-basis: calc((100% - 0.75rem) / 2);
-        min-width: 0;
-    }
+  .prodKpiRow > .sapMFlexItem,
+  .prodKpiRow > .sapMFlexItem:first-child {
+    flex-basis: calc((100% - 0.75rem) / 2);
+    min-width: 0;
+  }
 
   .prodDashMainRow {
     grid-template-columns: minmax(0, 1fr);

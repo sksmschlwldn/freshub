@@ -79,26 +79,26 @@
                         <HBox class="prodYieldLegend" alignItems="Center" justifyContent="Center">
                             <HBox class="prodYieldLegendItem" alignItems="Center">
                                 <VBox class="prodYieldBarLegend" />
-                                <Text text="생산량(EA)" />
+                                <Text text="생산량(EA)" class="vizChartText"/>
                             </HBox>
                             <HBox class="prodYieldLegendItem" alignItems="Center">
                                 <HBox class="prodYieldLineLegend" alignItems="Center">
                                     <VBox class="prodYieldLineDot" />
                                 </HBox>
-                                <Text text="오더수(건)" />
+                                <Text text="오더수(건)" class="vizChartText"/>
                             </HBox>
                         </HBox>
                         <viz:VizFrame
                             id="yieldChart"
                             width="100%"
-                            height="14rem"
+                            height="12rem"
                             uiConfig="{applicationSet:'fiori'}"
                             vizType="dual_combination"
                             vizProperties="{
                                 'title': {'visible': false},
                                 'legend': {'visible': false},
                                 'plotArea': {
-                                    'colorPalette': ['#0a6ed1', '#d17f00'],
+                                    colorPalette: ['#0a6ed1', '#d17f00'],
                                     'dataShape': {'primaryAxis': ['bar'], 'secondAxis': ['line']},
                                     'dataLabel': {'visible': true, 'type': 'value', 'position': 'outside'},
                                     'marker': {'visible': true}
@@ -152,14 +152,48 @@
                             </HBox>
                             <Text text="" class="prodTop5Value" />
                         </HBox>
-                        <Text text="생산량 (EA)" class="prodRatioAxisTitle" />
                     </VBox>
                 </HBox>
 
-                <VBox class="prodDashPanel prodTodayPlaceholder">
-                    <HBox alignItems="Baseline">
+                <VBox class="prodDashPanel prodTodayPanel">
+                    <HBox alignItems="Center" class="prodTodayHeader">
                         <Title text="오늘 생산오더 목록" level="H3" class="prodPanelTitle" />
                         <Text text="{dashboard>/periodText/todayTitle}" class="prodPanelSubTitle" />
+                    </HBox>
+                    <Table class="prodTodayTable" items="{dashboard>/todayOrders}" fixedLayout="false">
+                        <columns>
+                            <Column width="3rem" hAlign="Center"><Text text="No." /></Column>
+                            <Column width="8rem"><Text text="생산오더" /></Column>
+                            <Column width="12rem"><Text text="제품명" /></Column>
+                            <Column width="7rem" hAlign="End"><Text text="계획수량" /></Column>
+                            <Column width="4rem" hAlign="Center"><Text text="단위" /></Column>
+                            <Column width="7rem" hAlign="Center"><Text text="승인상태" /></Column>
+                            <Column width="8rem" hAlign="Center"><Text text="생산진행상태" /></Column>
+                            <Column width="7rem" hAlign="Center"><Text text="통합상태" /></Column>
+                            <Column width="7rem" hAlign="Center"><Text text="계획일" /></Column>
+                            <Column width="7rem" hAlign="Center"><Text text="담당자" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem vAlign="Middle">
+                                <cells>
+                                    <Text text="{dashboard>no}" textAlign="Center" />
+                                    <Link text="{dashboard>aufnr}" press=".onPressTodayOrder" />
+                                    <Text text="{dashboard>maktx}" wrapping="false" />
+                                    <Text text="{dashboard>gamng}" textAlign="End" />
+                                    <Text text="{dashboard>meins}" textAlign="Center" />
+                                    <ObjectStatus text="{dashboard>apstatText}" state="{dashboard>apstatState}" class="prodTodayStatus" />
+                                    <ObjectStatus text="{dashboard>statText}" state="{dashboard>statState}" class="prodTodayStatus" />
+                                    <ObjectStatus text="{dashboard>monStatusText}" state="{dashboard>monStatusState}" class="prodTodayStatus" />
+                                    <Text text="{dashboard>gstrp}" textAlign="Center" />
+                                    <Text text="{dashboard>sname}" textAlign="Center" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                    <HBox class="prodTodayStatusGuide" wrap="Wrap">
+                        <Text text="* 승인상태 : 승인대기 / 승인완료 / 반려" />
+                        <Text text="* 생산진행상태 : 미진행 / 진행중 / 완료 / 취소" />
+                        <Text text="* 통합상태 : 승인대기 / 생산대기 / 생산중 / 생산완료 / 반려 / 생산취소" />
                     </HBox>
                 </VBox>
             </VBox>
