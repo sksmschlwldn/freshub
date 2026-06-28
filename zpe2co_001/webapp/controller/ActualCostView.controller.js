@@ -190,7 +190,9 @@ sap.ui.define([
                 return "-";
             }
 
-            const sAmount = this._formatNumber(vAmount);
+            const sAmount = this._formatNumber(vAmount, {
+                round: sCurrency === "KRW"
+            });
             const sCurrencyText = this._formatCurrencyText(sCurrency);
 
             return sCurrencyText ? `${sAmount} ${sCurrencyText}` : sAmount;
@@ -377,16 +379,19 @@ sap.ui.define([
             oViewModel.setProperty("/month", sMonth);
         },
 
-        _formatNumber(vValue) {
+        _formatNumber(vValue, oOptions = {}) {
             const fValue = Number(String(vValue).replace(/,/g, ""));
 
             if (!Number.isFinite(fValue)) {
                 return String(vValue);
             }
 
-            return fValue.toLocaleString(undefined, {
+            const fDisplayValue = oOptions.round ? Math.round(fValue) : fValue;
+            const iMaximumFractionDigits = oOptions.round ? 0 : 3;
+
+            return fDisplayValue.toLocaleString(undefined, {
                 minimumFractionDigits: 0,
-                maximumFractionDigits: 3
+                maximumFractionDigits: iMaximumFractionDigits
             });
         },
 

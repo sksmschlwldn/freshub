@@ -66,10 +66,49 @@
                 <Property Name="Poper" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="월"/>
                 <Property Name="Plnbez" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="상위자재"/>
             </EntityType>
+            <EntityType Name="ActLab" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Matnr"/>
+                    <PropertyRef Name="Bdatj"/>
+                    <PropertyRef Name="Poper"/>
+                    <PropertyRef Name="Vornr"/>
+                    <PropertyRef Name="Arbpl"/>
+                </Key>
+                <Property Name="Vornr" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="공정번호"/>
+                <Property Name="Ltxa1" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="공정명"/>
+                <Property Name="Arbpl" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="작업장"/>
+                <Property Name="Ktext" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="작업장명"/>
+                <Property Name="Ismnw" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Vge02" sap:label="총시간"/>
+                <Property Name="Vge02" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="시간단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Wkg00" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="노무비"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="통화키" sap:semantics="currency-code"/>
+                <Property Name="Bdatj" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="연도"/>
+                <Property Name="Poper" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="월"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="자재 번호"/>
+            </EntityType>
+            <EntityType Name="ActInd" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Matnr"/>
+                    <PropertyRef Name="Bdatj"/>
+                    <PropertyRef Name="Poper"/>
+                    <PropertyRef Name="Kstar"/>
+                </Key>
+                <Property Name="Kstar" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="원가요소"/>
+                <Property Name="Ktext" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="원가요소명"/>
+                <Property Name="Ismnw" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Vge02" sap:label="총시간"/>
+                <Property Name="Vge02" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="시간단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Wkg00" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="간접비"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="통화키" sap:semantics="currency-code"/>
+                <Property Name="Bdatj" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="연도"/>
+                <Property Name="Poper" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="월"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="자재 번호"/>
+            </EntityType>
             <EntityContainer Name="ZGWE2CO0001_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
                 <EntitySet Name="ActualCostSet" EntityType="ZGWE2CO0001_SRV.ActualCost" sap:creatable="false" sap:updatable="true" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="ActProdOrderSet" EntityType="ZGWE2CO0001_SRV.ActProdOrder" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="ActMatSet" EntityType="ZGWE2CO0001_SRV.ActMat" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ActLabSet" EntityType="ZGWE2CO0001_SRV.ActLab" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ActIndSet" EntityType="ZGWE2CO0001_SRV.ActInd" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
             </EntityContainer>
             <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
             <atom:link rel="self" href="http://bgissap3.bgissap.co.kr:8000/sap/opu/odata/sap/ZGWE2CO0001_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>

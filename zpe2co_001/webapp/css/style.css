@@ -96,6 +96,16 @@
   font-weight: 700;
 }
 
+.actualCostTable .sapMText,
+.actualCostTable .sapMLabel {
+  max-width: 100%;
+}
+
+.actualCostTable .sapMText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .actualCostTable .sapUiTableCol,
 .actualCostTable .sapUiTableColCell,
 .actualCostTable .sapUiTableHeaderDataCell,
@@ -104,34 +114,6 @@
 .actualCostTable .sapUiTableTr > td {
   border-left: 0 !important;
   border-right: 0 !important;
-}
-
-.actualCostTable .sapUiTableFixedBottom,
-.actualCostTable .sapUiTableCtrlFixedBottom,
-.actualCostTable .sapUiTableRowFixedBottom,
-.actualCostTable .sapUiTableRowFixedBottom > .sapUiTableCell,
-.actualCostTable .sapUiTableRowHdr.sapUiTableRowFixedBottom,
-.actualCostTable .sapUiTableRowHdrScr .sapUiTableRowFixedBottom,
-.actualCostTable .sapUiTableCtrlFixedBottom .sapUiTableTr,
-.actualCostTable .sapUiTableCtrlFixedBottom .sapUiTableTd,
-.actualCostTable .sapUiTableFixedBottom .sapUiTableCell,
-.actualCostTable .sapUiTableCtrlFixedBottom .sapUiTableCell,
-.actualCostTable .sapUiTableRowFixedBottom .sapUiTableCell,
-.actualCostTable .sapUiTableRowFixedBottom .sapMText {
-  background-color: #f0f3f6 !important;
-}
-
-.actualCostTable .sapUiTableFixedBottom .sapMText,
-.actualCostTable .sapUiTableCtrlFixedBottom .sapMText,
-.actualCostTable .sapUiTableRowFixedBottom .sapMText,
-.actualCostTable .sapUiTableCtrlFixedBottom .sapUiTableCell .sapMText {
-  color: #223548;
-  font-weight: 700;
-}
-
-.actualCostDetailTotalText {
-  color: #223548;
-  font-weight: 700;
 }
 
 .actualCostStatusText .sapMObjStatusText {
@@ -233,11 +215,137 @@
 }
 
 .actualCostDetailChartPanel {
-  flex: 0 0 26rem;
+  --actualCostDonutMaterial: #2588e6;
+  --actualCostDonutLabor: #35c3ad;
+  --actualCostDonutOverhead: #ffad33;
+  --actualCostDonutEmpty: #d5dce5;
+  /* 도넛 차트 카드 폭 조정 */
+  flex: 0 0 30rem;
+}
+
+.actualCostDonutWrap {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  gap: 1.5rem;
+  min-height: 14rem;
+  padding: 1rem 1.25rem;
+}
+
+.actualCostDonut {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  flex: 0 0 auto;
+  height: 10rem;
+  justify-content: center;
+  width: 10rem;
+}
+
+.actualCostDonutHole {
+  align-items: center;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 5.75rem;
+  justify-content: center;
+  width: 5.75rem;
+}
+
+.actualCostDonutTotal {
+  color: #223548;
+  /* 도넛 중앙 총액 글씨 크기 */
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.actualCostDonutCurrency {
+  color: #63758a;
+  /* 도넛 중앙 통화 글씨 크기 */
+  font-size: 0.8125rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.actualCostDonutLegend {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.actualCostDonutLegendItem {
+  align-items: center;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 0.75rem 4rem minmax(7rem, 1fr);
+}
+
+.actualCostDonutLegendDot {
+  border-radius: 50%;
+  height: 0.625rem;
+  width: 0.625rem;
+}
+
+.actualCostDonutLegendDotMaterial {
+  background: var(--actualCostDonutMaterial);
+}
+
+.actualCostDonutLegendDotLabor {
+  background: var(--actualCostDonutLabor);
+}
+
+.actualCostDonutLegendDotOverhead {
+  background: var(--actualCostDonutOverhead);
+}
+
+.actualCostDonutLegendName {
+  color: #223548;
+  /* 도넛 범례 항목명 글씨 크기 */
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.actualCostDonutLegendValue {
+  color: #63758a;
+  /* 도넛 범례 금액/비율 글씨 크기 */
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .actualCostDetailOrderPanel {
   min-width: 0;
+}
+
+.actualCostProdOrderTable {
+  width: 100%;
+}
+
+.actualCostProdOrderTable .sapUiTableCnt,
+.actualCostProdOrderTable .sapUiTableCtrlScr,
+.actualCostProdOrderTable .sapUiTableCtrlScrFixed {
+  overflow-x: hidden !important;
+}
+
+.actualCostProdOrderSummaryTable {
+  border-top: 2px solid #9ea7b3;
+}
+
+.actualCostProdOrderSummaryTable .sapUiTableCCnt,
+.actualCostProdOrderSummaryTable .sapUiTableCtrl,
+.actualCostProdOrderSummaryTable .sapUiTableRow,
+.actualCostProdOrderSummaryTable .sapUiTableCell {
+  background-color: #f0f3f6 !important;
+}
+
+.actualCostProdOrderSummaryTable .sapMLabel {
+  color: #223548;
+  font-weight: 800;
 }
 
 .actualCostDetailTabs {
@@ -271,5 +379,10 @@
 
   .actualCostDetailChartPanel {
     flex-basis: auto;
+  }
+
+  .actualCostDonutWrap {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
