@@ -137,6 +137,86 @@
   border-color: #0a6ed1;
 }
 
+.actualCostDetailToolbar,
+.actualCostDetailSummary,
+.actualCostDetailOrderPanel,
+.actualCostDetailBottomRow > .sapMPanel,
+.actualCostDetailTabs {
+  border: 1px solid #d5dce5;
+  border-radius: 0.5rem;
+  background: #ffffff;
+}
+
+.actualCostDetailToolbar {
+  min-height: 3.25rem;
+  margin-bottom: 0.5rem;
+  box-shadow: none;
+}
+
+.actualCostDetailBreadcrumb {
+  color: #0a6ed1;
+  font-weight: 700;
+}
+
+.actualCostDetailTitle {
+  margin-left: 1rem;
+}
+
+.actualCostDetailSummary {
+  min-height: 4.75rem;
+  padding: 0.875rem 1.25rem;
+  gap: 1rem;
+}
+
+.actualCostDetailSummaryItem {
+  flex: 1 1 0;
+  justify-content: center;
+}
+
+.actualCostDetailSummaryItem .sapMLabel {
+  color: #63758a;
+  font-weight: 700;
+}
+
+.actualCostDetailSummaryItem .sapMObjectNumber {
+  margin-top: 0.25rem;
+}
+
+.actualCostDetailStatus .sapMObjStatusText {
+  background: #dcf7e3;
+  border-radius: 999px;
+  color: #14b35c !important;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+}
+
+.actualCostDetailBottomRow {
+  gap: 0.5rem;
+}
+
+.actualCostDetailChartPanel {
+  flex: 0 0 26rem;
+}
+
+.actualCostDetailOrderPanel {
+  min-width: 0;
+}
+
+.actualCostDetailTabs {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.actualCostDetailEmptyChart,
+.actualCostDetailEmptyTab {
+  min-height: 10rem;
+  color: #63758a;
+}
+
+.actualCostDetailTabs .sapMITBContent {
+  padding: 0;
+}
+
 @media (max-width: 64rem) {
   .actualCostSummary {
     grid-template-columns: repeat(2, minmax(10rem, 1fr));
@@ -144,5 +224,14 @@
 
   .actualCostSummaryItem:nth-child(2) {
     border-right: 0;
+  }
+
+  .actualCostDetailBottomRow,
+  .actualCostDetailSummary {
+    flex-direction: column;
+  }
+
+  .actualCostDetailChartPanel {
+    flex-basis: auto;
   }
 }

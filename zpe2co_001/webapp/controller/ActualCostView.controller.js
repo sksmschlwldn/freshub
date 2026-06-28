@@ -93,16 +93,50 @@ sap.ui.define([
 
         onPressCalculate(oEvent) {
             const oContext = oEvent.getSource().getBindingContext("view");
-            const sMatnr = oContext?.getProperty("Matnr");
+            const oRow = oContext?.getObject();
+            const oPayload = this._createActualCostUpdatePayload(oRow);
 
-            MessageToast.show(sMatnr ? `${sMatnr} 산정 준비 중입니다.` : "산정 준비 중입니다.");
+            if (!oPayload) {
+                MessageToast.show("산정할 자재 정보를 찾을 수 없습니다.");
+                return;
+            }
+
+            const oTable = this.byId("actualCostTable");
+            const oModel = this.getView().getModel();
+            const sPath = `/${oModel.createKey("ActualCostSet", oPayload)}`;
+
+            oTable.setBusy(true);
+            oModel.update(sPath, oPayload, {
+                success: () => {
+                    const sMaterialName = oRow.Maktx || oPayload.Matnr;
+
+                    MessageToast.show(`${sMaterialName} 실제원가 산정이 완료되었습니다.`);
+                    this.onSearch();
+                },
+                error: () => {
+                    oTable.setBusy(false);
+                    MessageToast.show("실제원가 산정에 실패했습니다.");
+                }
+            });
         },
 
         onPressDetail(oEvent) {
             const oContext = oEvent.getSource().getBindingContext("view");
-            const sMatnr = oContext?.getProperty("Matnr");
+            const oRow = oContext?.getObject();
+            const oPayload = this._createActualCostUpdatePayload(oRow);
 
-            MessageToast.show(sMatnr ? `${sMatnr} 상세 준비 중입니다.` : "상세 준비 중입니다.");
+            if (!oPayload) {
+                MessageToast.show("상세 조회할 자재 정보를 찾을 수 없습니다.");
+                return;
+            }
+
+            this.getOwnerComponent().setModel(new JSONModel(oRow), "actualCostSelection");
+
+            this.getOwnerComponent().getRouter().navTo("RouteActualCostDetail", {
+                matnr: encodeURIComponent(oPayload.Matnr),
+                bdatj: encodeURIComponent(oPayload.Bdatj),
+                poper: encodeURIComponent(oPayload.Poper)
+            });
         },
 
         _updateSummary(aItems) {
@@ -145,6 +179,10 @@ sap.ui.define([
 
         formatCalculateButtonVisible(sStat) {
             return this._isPendingStatus(sStat);
+        },
+
+        formatDetailButtonVisible(sStat) {
+            return sStat === "Y";
         },
 
         formatCurrencyAmount(vAmount, sCurrency) {
@@ -362,6 +400,24 @@ sap.ui.define([
 
         _isPendingStatus(sStat) {
             return sStat !== "Y";
+        },
+
+        _createActualCostUpdatePayload(oRow) {
+            if (!oRow?.Matnr) {
+                return null;
+            }
+
+            const oPayload = {
+                Matnr: oRow.Matnr,
+                Bdatj: oRow.Bdatj || this.byId("yearComboBox").getSelectedKey(),
+                Poper: oRow.Poper || this.byId("monthComboBox").getSelectedKey()
+            };
+
+            if (!oPayload.Bdatj || !oPayload.Poper) {
+                return null;
+            }
+
+            return oPayload;
         },
 
         _getFirstExistingValue(oRow, aFields) {

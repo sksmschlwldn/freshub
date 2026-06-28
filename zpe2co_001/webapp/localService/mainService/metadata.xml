@@ -23,8 +23,53 @@
                 <Property Name="Poper" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="자재평가기간 (월)" sap:updatable="false"/>
                 <Property Name="Stat" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="원가 산정 상태"/>
             </EntityType>
+            <EntityType Name="ActProdOrder" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Matnr"/>
+                    <PropertyRef Name="Bdatj"/>
+                    <PropertyRef Name="Poper"/>
+                    <PropertyRef Name="Aufnr"/>
+                </Key>
+                <Property Name="Aufnr" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="오더번호"/>
+                <Property Name="Qiactdat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="생산일자"/>
+                <Property Name="Gamng" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="생산수량"/>
+                <Property Name="OkQty" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="합격수량"/>
+                <Property Name="Dmatl" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="재료비"/>
+                <Property Name="Dlabr" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="노무비"/>
+                <Property Name="Mohad" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="간접비"/>
+                <Property Name="Wkg00" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="실제원가"/>
+                <Property Name="Stprs" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="실제단가"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="통화키" sap:semantics="currency-code"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Bdatj" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="연도"/>
+                <Property Name="Poper" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="월"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="자재 번호"/>
+            </EntityType>
+            <EntityType Name="ActMat" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plnbez"/>
+                    <PropertyRef Name="Matnr"/>
+                    <PropertyRef Name="Bdatj"/>
+                    <PropertyRef Name="Poper"/>
+                </Key>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="자재 번호"/>
+                <Property Name="Maktx" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="자재명"/>
+                <Property Name="Dislf" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="규격"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Ntgew" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Gewei" sap:label="순중량"/>
+                <Property Name="Gewei" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="중량단위" sap:semantics="unit-of-measure"/>
+                <Property Name="Bdmng" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:unit="Meins" sap:label="소요량"/>
+                <Property Name="Dmatl" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="재료비"/>
+                <Property Name="Wkg00" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="금액"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="통화키" sap:semantics="currency-code"/>
+                <Property Name="Bdatj" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="연도"/>
+                <Property Name="Poper" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="월"/>
+                <Property Name="Plnbez" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="상위자재"/>
+            </EntityType>
             <EntityContainer Name="ZGWE2CO0001_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
-                <EntitySet Name="ActualCostSet" EntityType="ZGWE2CO0001_SRV.ActualCost" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ActualCostSet" EntityType="ZGWE2CO0001_SRV.ActualCost" sap:creatable="false" sap:updatable="true" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ActProdOrderSet" EntityType="ZGWE2CO0001_SRV.ActProdOrder" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ActMatSet" EntityType="ZGWE2CO0001_SRV.ActMat" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
             </EntityContainer>
             <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
             <atom:link rel="self" href="http://bgissap3.bgissap.co.kr:8000/sap/opu/odata/sap/ZGWE2CO0001_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>

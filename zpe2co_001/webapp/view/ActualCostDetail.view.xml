@@ -1,0 +1,205 @@
+<mvc:View controllerName="zpe2.co001.zpe2co001.controller.ActualCostDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:t="sap.ui.table"
+    xmlns="sap.m">
+    <Page id="actualCostDetailPage" showHeader="false" class="actualCostDetailPage">
+        <VBox class="sapUiSmallMargin">
+            <Toolbar class="actualCostDetailToolbar">
+                <Button
+                    icon="sap-icon://nav-back"
+                    type="Transparent"
+                    tooltip="뒤로"
+                    press=".onNavBack" />
+                <Text text="실제원가 산정" class="actualCostDetailBreadcrumb" />
+                <Title
+                    level="H2"
+                    text="{path: 'detail>/selection', formatter: '.formatHeaderTitle'}"
+                    class="actualCostDetailTitle" />
+                <ToolbarSpacer />
+                <Button text="PDF 원가명세서 출력" type="Emphasized" enabled="false" />
+                <Button text="엑셀 다운로드" enabled="false" />
+                <Button icon="sap-icon://refresh" type="Transparent" tooltip="새로고침" press=".onRefresh" />
+            </Toolbar>
+
+            <HBox class="actualCostDetailSummary sapUiSmallMarginBottom" renderType="Bare">
+                <VBox class="actualCostDetailSummaryItem">
+                    <Label text="상태" />
+                    <ObjectStatus text="산정완료" state="Success" class="actualCostDetailStatus" />
+                </VBox>
+                <VBox class="actualCostDetailSummaryItem">
+                    <Label text="기간" />
+                    <ObjectNumber number="{parts: [{path: 'detail>/selection/Bdatj'}, {path: 'detail>/selection/Poper'}], formatter: '.formatPeriod'}" />
+                </VBox>
+                <VBox class="actualCostDetailSummaryItem">
+                    <Label text="생산수량 (계획)" />
+                    <ObjectNumber
+                        number="{parts: [{path: 'detail>/summary/Gamng'}, {path: 'detail>/summary/Meins'}], formatter: '.formatQuantity'}" />
+                </VBox>
+                <VBox class="actualCostDetailSummaryItem">
+                    <Label text="완료수량 (실제)" />
+                    <ObjectNumber
+                        number="{parts: [{path: 'detail>/summary/OkQty'}, {path: 'detail>/summary/Meins'}], formatter: '.formatQuantity'}" />
+                </VBox>
+                <VBox class="actualCostDetailSummaryItem">
+                    <Label text="실제단가" />
+                    <ObjectNumber
+                        number="{parts: [{path: 'detail>/summary/Stprs'}, {path: 'detail>/summary/Waers'}, {path: 'detail>/summary/Meins'}], formatter: '.formatUnitCost'}" />
+                </VBox>
+                <VBox class="actualCostDetailSummaryItem">
+                    <Label text="총 실제원가" />
+                    <ObjectNumber
+                        number="{parts: [{path: 'detail>/summary/Wkg00'}, {path: 'detail>/summary/Waers'}], formatter: '.formatCurrencyAmount'}" />
+                </VBox>
+            </HBox>
+
+            <Panel
+                headerText="생산오더별 원가 내역"
+                class="actualCostDetailOrderPanel sapUiNoContentPadding sapUiSmallMarginBottom">
+                <t:Table
+                    id="actProdOrderTable"
+                    class="actualCostTable"
+                    visibleRowCount="5"
+                    minAutoRowCount="3"
+                    rows="{detail>/prodOrders}"
+                    selectionMode="None">
+                    <t:columns>
+                        <t:Column width="8rem">
+                            <Label text="생산오더번호" />
+                            <t:template>
+                                <Text text="{detail>Aufnr}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="7rem">
+                            <Label text="생산일자" />
+                            <t:template>
+                                <Text text="{path: 'detail>Qiactdat', formatter: '.formatDate'}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="7rem" hAlign="End">
+                            <Label text="생산수량 (계획)" />
+                            <t:template>
+                                <Text text="{parts: [{path: 'detail>Gamng'}, {path: 'detail>Meins'}], formatter: '.formatQuantity'}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="7rem" hAlign="End">
+                            <Label text="완료수량 (실제)" />
+                            <t:template>
+                                <Text text="{parts: [{path: 'detail>OkQty'}, {path: 'detail>Meins'}], formatter: '.formatQuantity'}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="7rem" hAlign="End">
+                            <Label text="재료비" />
+                            <t:template>
+                                <Text text="{parts: [{path: 'detail>Dmatl'}, {path: 'detail>Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="7rem" hAlign="End">
+                            <Label text="노무비" />
+                            <t:template>
+                                <Text text="{parts: [{path: 'detail>Dlabr'}, {path: 'detail>Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="7rem" hAlign="End">
+                            <Label text="간접비" />
+                            <t:template>
+                                <Text text="{parts: [{path: 'detail>Mohad'}, {path: 'detail>Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="8rem" hAlign="End">
+                            <Label text="총 실제원가" />
+                            <t:template>
+                                <Text text="{parts: [{path: 'detail>Wkg00'}, {path: 'detail>Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="7rem" hAlign="End">
+                            <Label text="실제단가" />
+                            <t:template>
+                                <Text text="{parts: [{path: 'detail>Stprs'}, {path: 'detail>Waers'}, {path: 'detail>Meins'}], formatter: '.formatUnitCost'}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:Table>
+            </Panel>
+
+            <HBox class="actualCostDetailBottomRow" renderType="Bare">
+                <Panel
+                    headerText="원가 구성 (총 실제원가)"
+                    class="actualCostDetailChartPanel sapUiNoContentPadding">
+                    <VBox class="actualCostDetailEmptyChart" alignItems="Center" justifyContent="Center">
+                        <Text text="그래프 영역" />
+                    </VBox>
+                </Panel>
+
+                <Panel headerText="상세 원가 구성" class="actualCostDetailTabs sapUiNoContentPadding">
+                    <IconTabBar expandable="false">
+                        <items>
+                            <IconTabFilter key="material" text="재료비 내역">
+                                <t:Table
+                                    id="actMatTable"
+                                    class="actualCostTable"
+                                    visibleRowCount="6"
+                                    rows="{detail>/materials}"
+                                    selectionMode="None">
+                                    <t:columns>
+                                        <t:Column width="8rem">
+                                            <Label text="자재번호" />
+                                            <t:template>
+                                                <Text text="{detail>Matnr}" wrapping="false" />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column width="12rem">
+                                            <Label text="자재명" />
+                                            <t:template>
+                                                <Text text="{detail>Maktx}" wrapping="false" />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column width="8rem">
+                                            <Label text="규격" />
+                                            <t:template>
+                                                <Text text="{detail>Dislf}" wrapping="false" />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column width="6rem">
+                                            <Label text="단위" />
+                                            <t:template>
+                                                <Text text="{detail>Meins}" wrapping="false" />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column width="8rem" hAlign="End">
+                                            <Label text="투입수량" />
+                                            <t:template>
+                                                <Text text="{parts: [{path: 'detail>Bdmng'}, {path: 'detail>Meins'}], formatter: '.formatQuantity'}" wrapping="false" />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column width="8rem" hAlign="End">
+                                            <Label text="단가" />
+                                            <t:template>
+                                                <Text text="{parts: [{path: 'detail>Dmatl'}, {path: 'detail>Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column width="8rem" hAlign="End">
+                                            <Label text="금액" />
+                                            <t:template>
+                                                <Text text="{parts: [{path: 'detail>Wkg00'}, {path: 'detail>Waers'}], formatter: '.formatCurrencyAmount'}" wrapping="false" />
+                                            </t:template>
+                                        </t:Column>
+                                    </t:columns>
+                                </t:Table>
+                            </IconTabFilter>
+                            <IconTabFilter key="labor" text="노무비 내역">
+                                <VBox class="actualCostDetailEmptyTab" alignItems="Center" justifyContent="Center">
+                                    <Text text="노무비 상세 내역은 추후 연결 예정입니다." />
+                                </VBox>
+                            </IconTabFilter>
+                            <IconTabFilter key="overhead" text="간접비 내역">
+                                <VBox class="actualCostDetailEmptyTab" alignItems="Center" justifyContent="Center">
+                                    <Text text="간접비 상세 내역은 추후 연결 예정입니다." />
+                                </VBox>
+                            </IconTabFilter>
+                        </items>
+                    </IconTabBar>
+                </Panel>
+            </HBox>
+        </VBox>
+    </Page>
+</mvc:View>

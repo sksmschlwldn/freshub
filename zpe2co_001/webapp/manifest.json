@@ -46,7 +46,7 @@
   "sap.ui5": {
     "flexEnabled": false,
     "config": {
-      "fullWidth": true
+      "fullWidth": false
     },
     "dependencies": {
       "minUI5Version": "1.120.23",
@@ -100,12 +100,21 @@
           "name": "RouteActualCostView",
           "pattern": ":?query:",
           "target": ["TargetActualCostView"]
+        },
+        {
+          "name": "RouteActualCostDetail",
+          "pattern": "ActualCost/{matnr}/{bdatj}/{poper}",
+          "target": ["TargetActualCostDetail"]
         }
       ],
       "targets": {
         "TargetActualCostView": {
           "id": "ActualCostView",
           "name": "ActualCostView"
+        },
+        "TargetActualCostDetail": {
+          "id": "ActualCostDetail",
+          "name": "ActualCostDetail"
         }
       }
     },

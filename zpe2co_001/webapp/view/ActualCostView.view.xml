@@ -121,19 +121,19 @@
                     </OverflowToolbar>
                 </t:extension>
                 <t:columns>
-                    <t:Column width="7rem">
+                    <t:Column width="5rem">
                         <Label text="자재번호" />
                         <t:template>
                             <Text text="{view>Matnr}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="10rem">
+                    <t:Column width="9rem">
                         <Label text="자재명" />
                         <t:template>
                             <Text text="{view>Maktx}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="7rem" hAlign="End">
+                    <t:Column width="6.5rem" hAlign="End">
                         <Label text="생산수량 (계획)" />
                         <t:template>
                             <Text
@@ -145,7 +145,7 @@
                                 wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="7rem" hAlign="End">
+                    <t:Column width="6.5rem" hAlign="End">
                         <Label text="완료수량 (실제)" />
                         <t:template>
                             <Text
@@ -153,31 +153,31 @@
                                 wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="7.5rem" hAlign="End">
+                    <t:Column width="7rem" hAlign="End">
                         <Label text="재료비" />
                         <t:template>
                             <Text text="{parts: [{path: 'view>Dmatl'}, {path: 'view>Waers'}, {path: 'view>Stat'}], formatter: '.formatActualCurrencyAmount'}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="7.5rem" hAlign="End">
+                    <t:Column width="7rem" hAlign="End">
                         <Label text="노무비" />
                         <t:template>
                             <Text text="{parts: [{path: 'view>Dlabr'}, {path: 'view>Dlabl'}, {path: 'view>Waers'}, {path: 'view>Stat'}], formatter: '.formatActualCurrencyAmountFallback'}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="7.5rem" hAlign="End">
+                    <t:Column width="7rem" hAlign="End">
                         <Label text="간접비" />
                         <t:template>
                             <Text text="{parts: [{path: 'view>Mohad'}, {path: 'view>Mmach'}, {path: 'view>Waers'}, {path: 'view>Stat'}], formatter: '.formatActualCurrencyAmountFallback'}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="8rem" hAlign="End">
+                    <t:Column width="7rem" hAlign="End">
                         <Label text="총 실제원가" />
                         <t:template>
                             <Text text="{parts: [{path: 'view>Wkg00'}, {path: 'view>Waers'}, {path: 'view>Stat'}], formatter: '.formatActualCurrencyAmount'}" wrapping="false" />
                         </t:template>
                     </t:Column>
-                    <t:Column width="8rem" hAlign="End">
+                    <t:Column width="6rem" hAlign="End">
                         <Label text="실제단가" />
                         <t:template>
                             <Text text="{parts: [{path: 'view>Stprs'}, {path: 'view>Waers'}, {path: 'view>Meins'}, {path: 'view>Stat'}], formatter: '.formatActualUnitCost'}" wrapping="false" />
@@ -211,6 +211,7 @@
                                 icon="sap-icon://navigation-right-arrow"
                                 type="Transparent"
                                 tooltip="상세"
+                                visible="{path: 'view>Stat', formatter: '.formatDetailButtonVisible'}"
                                 press=".onPressDetail" />
                         </t:template>
                     </t:Column>
