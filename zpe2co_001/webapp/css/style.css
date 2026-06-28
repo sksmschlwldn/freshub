@@ -96,6 +96,44 @@
   font-weight: 700;
 }
 
+.actualCostTable .sapUiTableCol,
+.actualCostTable .sapUiTableColCell,
+.actualCostTable .sapUiTableHeaderDataCell,
+.actualCostTable .sapUiTableCell,
+.actualCostTable .sapUiTableTd,
+.actualCostTable .sapUiTableTr > td {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+
+.actualCostTable .sapUiTableFixedBottom,
+.actualCostTable .sapUiTableCtrlFixedBottom,
+.actualCostTable .sapUiTableRowFixedBottom,
+.actualCostTable .sapUiTableRowFixedBottom > .sapUiTableCell,
+.actualCostTable .sapUiTableRowHdr.sapUiTableRowFixedBottom,
+.actualCostTable .sapUiTableRowHdrScr .sapUiTableRowFixedBottom,
+.actualCostTable .sapUiTableCtrlFixedBottom .sapUiTableTr,
+.actualCostTable .sapUiTableCtrlFixedBottom .sapUiTableTd,
+.actualCostTable .sapUiTableFixedBottom .sapUiTableCell,
+.actualCostTable .sapUiTableCtrlFixedBottom .sapUiTableCell,
+.actualCostTable .sapUiTableRowFixedBottom .sapUiTableCell,
+.actualCostTable .sapUiTableRowFixedBottom .sapMText {
+  background-color: #f0f3f6 !important;
+}
+
+.actualCostTable .sapUiTableFixedBottom .sapMText,
+.actualCostTable .sapUiTableCtrlFixedBottom .sapMText,
+.actualCostTable .sapUiTableRowFixedBottom .sapMText,
+.actualCostTable .sapUiTableCtrlFixedBottom .sapUiTableCell .sapMText {
+  color: #223548;
+  font-weight: 700;
+}
+
+.actualCostDetailTotalText {
+  color: #223548;
+  font-weight: 700;
+}
+
 .actualCostStatusText .sapMObjStatusText {
   font-weight: 700;
 }

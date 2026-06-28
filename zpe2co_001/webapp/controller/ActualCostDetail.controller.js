@@ -66,8 +66,9 @@ sap.ui.define([
                 this._readEntitySet(oModel, "/ActMatSet", aFilters)
             ]).then(([aProdOrders, aMaterials]) => {
                 const oSummary = this._createSummary(aProdOrders);
+                const aProdOrderRows = this._appendSummaryRow(aProdOrders, oSummary);
 
-                oView.getModel("detail").setProperty("/prodOrders", aProdOrders);
+                oView.getModel("detail").setProperty("/prodOrders", aProdOrderRows);
                 oView.getModel("detail").setProperty("/materials", aMaterials);
                 oView.getModel("detail").setProperty("/summary", oSummary);
                 oView.setBusy(false);
@@ -115,6 +116,18 @@ sap.ui.define([
             oSummary.Stprs = oSummary.OkQty ? oSummary.Wkg00 / oSummary.OkQty : 0;
 
             return oSummary;
+        },
+
+        _appendSummaryRow(aProdOrders, oSummary) {
+            return [
+                ...aProdOrders,
+                {
+                    ...oSummary,
+                    Aufnr: "합계",
+                    Qiactdat: " ",
+                    IsTotal: true
+                }
+            ];
         },
 
         _createEmptySummary() {
@@ -191,6 +204,18 @@ sap.ui.define([
             return sUnit ? `${sQuantity} ${sUnit}` : sQuantity;
         },
 
+        formatMaterialSpec(vWeight, sWeightUnit, sBaseUnit) {
+            if (vWeight === null || vWeight === undefined || vWeight === "") {
+                return "-";
+            }
+
+            const sWeight = this._formatNumber(vWeight);
+            const sSpecWeightUnit = this._formatWeightUnitText(sWeightUnit);
+            const sSpec = sSpecWeightUnit ? `${sWeight}${sSpecWeightUnit}` : sWeight;
+
+            return sBaseUnit ? `${sSpec}/${sBaseUnit}` : sSpec;
+        },
+
         formatCurrencyAmount(vAmount, sCurrency) {
             if (vAmount === null || vAmount === undefined || vAmount === "") {
                 return "-";
@@ -239,6 +264,14 @@ sap.ui.define([
             }
 
             return sCurrency || "";
+        },
+
+        _formatWeightUnitText(sUnit) {
+            if (String(sUnit || "").toLowerCase() === "grm") {
+                return "g";
+            }
+
+            return sUnit || "";
         },
 
         _toNumber(vValue) {
